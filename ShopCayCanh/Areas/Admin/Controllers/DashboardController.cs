@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopCayCanh.Library;
 
 namespace ShopCayCanh.Areas.Admin.Controllers
 {
@@ -47,7 +48,20 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             string shortDate = dateNow.ToString("yyyy-MM-dd");
             var Order = db.Orders;
             ViewBag.OrderToday = 0;
-            foreach (var item in Order)
+
+            //foreach (var item in Order)
+            //{
+            //    DateTime shortItem = Convert.ToDateTime(item.exportdate);
+            //    string shortItem1 = shortItem.ToString("yyyy-MM-dd");
+            //    if (shortItem1 == shortDate)
+            //    {
+            //        ViewBag.OrderToday += 1;
+            //    }
+            //}
+
+            IIterator<Morder> iterator = new OrderIterator(Order.ToList());
+            var item = iterator.First();
+            while(!iterator.IsDone)
             {
                 DateTime shortItem = Convert.ToDateTime(item.exportdate);
                 string shortItem1 = shortItem.ToString("yyyy-MM-dd");
@@ -55,11 +69,43 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 {
                     ViewBag.OrderToday += 1;
                 }
+                item = iterator.Next();
             }
 
             //order weed
             ViewBag.OrderWeek = 0;
-            foreach (var item in Order)
+
+            //foreach (var item in Order)
+            //{
+            //    DateTime shortItem = Convert.ToDateTime(item.exportdate);
+            //    string shortItem1 = shortItem.ToString("yyyy-MM-dd");
+            //    int d = (int)dateNow.Day;
+            //    int m = (int)dateNow.Month;
+            //    int y = (int)dateNow.Year;
+            //    for (int i = 0; i < 7; i++)
+            //    {
+            //        int day = d - i;
+            //        if (day <= 0)
+            //        {
+            //            --m;
+            //        }
+            //        if (m <= 0)
+            //        {
+            //            --y;
+            //        }
+            //        string shortWeek = "" + y + "-0" + m + "-0" + day + "";
+            //        if (shortItem1 == shortWeek)
+            //        {
+            //            ViewBag.OrderWeek += 1;
+            //        }
+
+            //    }
+
+            //}
+
+            iterator = new OrderIterator(Order.ToList());
+            item = iterator.First();
+            while (!iterator.IsDone)
             {
                 DateTime shortItem = Convert.ToDateTime(item.exportdate);
                 string shortItem1 = shortItem.ToString("yyyy-MM-dd");
@@ -84,8 +130,10 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     }
 
                 }
-              
+                item = iterator.Next();
             }
+
+
             return View("_Statistical");
         }
 

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ShopCayCanh.Common;
 using ShopCayCanh.Models;
+using ShopCayCanh.Library;
 
 namespace ShopCayCanh.Areas.Admin.Controllers
 {
@@ -47,9 +48,35 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 var arrcat = itemcatt.Split(',');
 
-                foreach (var rcat in arrcat)
+                //foreach (var rcat in arrcat)
+                //{
+                //    int id = int.Parse(rcat);
+                //    Mpost post = db.posts.Find(id);
+                //    Mmenu menu = new Mmenu();
+
+                //    menu.name = post.title;
+                //    menu.link = post.slug;
+                //    menu.position = data["position"];
+                //    menu.type = "menu";
+                //    menu.tableid = 2;
+                //    menu.parentid = 0;
+                //    menu.orders = 1;
+                //    menu.created_at = DateTime.Now;
+                //    menu.updated_at = DateTime.Now;
+                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.status = 1;
+
+                //    Singleton_Menu.GetInstance.Add(menu);
+
+                //    Message.set_flash("Thêm thành công", "success");
+                //}
+
+                IIterator<String> iterator = new StringIterator(arrcat.ToList());
+                var item = iterator.First();
+                while(!iterator.IsDone)
                 {
-                    int id = int.Parse(rcat);
+                    int id = int.Parse(item);
                     Mpost post = db.posts.Find(id);
                     Mmenu menu = new Mmenu();
 
@@ -69,8 +96,10 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     Singleton_Menu.GetInstance.Add(menu);
 
                     Message.set_flash("Thêm thành công", "success");
+
+                    item = iterator.Next();
                 }
-             
+
             }
 
             if (!string.IsNullOrEmpty(data["THEMCATE"]))
@@ -83,14 +112,40 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 }
 
                 var arrcat = itemcatt.Split(',');
-                foreach (var rcat in arrcat)
+                //foreach (var rcat in arrcat)
+                //{
+                //    int id = int.Parse(rcat);
+                //    Mcategory mcategory = Singleton_Category.GetInstance.Find(id);
+                //    Mmenu menu = new Mmenu();
+
+                //    menu.name = mcategory.name;
+                //    menu.link = "loaiSP/"+mcategory.slug;
+                //    menu.position = data["position"];
+                //    menu.type = "menu";
+                //    menu.tableid = 2;
+                //    menu.parentid = 0;
+                //    menu.orders = 1;
+                //    menu.created_at = DateTime.Now;
+                //    menu.updated_at = DateTime.Now;
+                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.status = 1;
+
+                //    Singleton_Menu.GetInstance.Add(menu);
+
+                //    Message.set_flash("Thêm thành công", "success");
+                //}
+
+                IIterator<String> iterator = new StringIterator(arrcat.ToList());
+                var item = iterator.First();
+                while(!iterator.IsDone)
                 {
-                    int id = int.Parse(rcat);
+                    int id = int.Parse(item);
                     Mcategory mcategory = Singleton_Category.GetInstance.Find(id);
                     Mmenu menu = new Mmenu();
 
                     menu.name = mcategory.name;
-                    menu.link = "loaiSP/"+mcategory.slug;
+                    menu.link = "loaiSP/" + mcategory.slug;
                     menu.position = data["position"];
                     menu.type = "menu";
                     menu.tableid = 2;
@@ -105,6 +160,8 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     Singleton_Menu.GetInstance.Add(menu);
 
                     Message.set_flash("Thêm thành công", "success");
+
+                    item = iterator.Next();
                 }
                
             }
@@ -118,9 +175,35 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     return RedirectToAction("index");
                 }
                 var arrcat = itemcatt.Split(',');
-                foreach (var rcat in arrcat)
+                //foreach (var rcat in arrcat)
+                //{
+                //    int id = int.Parse(rcat);
+                //    Mtopic mtopic = db.topics.Find(id);
+                //    Mmenu menu = new Mmenu();
+
+                //    menu.name = mtopic.name;
+                //    menu.link = mtopic.slug;
+                //    menu.position = data["position"];
+                //    menu.type = "menu";
+                //    menu.tableid = 2;
+                //    menu.parentid = 0;
+                //    menu.orders = 1;
+                //    menu.created_at = DateTime.Now;
+                //    menu.updated_at = DateTime.Now;
+                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
+                //    menu.status = 1;
+
+                //    Singleton_Menu.GetInstance.Add(menu);
+
+                //    Message.set_flash("Thêm thành công", "success");
+                //}
+
+                IIterator<String> iterator = new StringIterator(arrcat.ToList());
+                var item = iterator.First();
+                while(!iterator.IsDone)
                 {
-                    int id = int.Parse(rcat);
+                    int id = int.Parse(item);
                     Mtopic mtopic = db.topics.Find(id);
                     Mmenu menu = new Mmenu();
 
@@ -140,6 +223,8 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     Singleton_Menu.GetInstance.Add(menu);
 
                     Message.set_flash("Thêm thành công", "success");
+
+                    item = iterator.Next();
                 }
               
             }
