@@ -36,7 +36,8 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View();
         }
 
-
+        
+        // POST: Admin/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -105,6 +106,15 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 db.Products.Add(mproduct);
                 db.SaveChanges();
 
+                // Add link to db
+                link link = new link();
+                link.slug = mproduct.slug;
+                link.tableId = 1;
+                link.type = "ProductDetail";
+                link.parentId = mproduct.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
                 Message.set_flash("Thêm thành công", "success");
                 return RedirectToAction("index");
             }
@@ -146,6 +156,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             var list_cat = Singleton_Category.GetInstance.list_cat;
             if (ModelState.IsValid)
             {
+
                 string slug = Mystring.ToSlug(mproduct.name.ToString());
                 file = Request.Files["img"];
                 string filename = file.FileName.ToString();
@@ -173,6 +184,16 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 db.Entry(mproduct).State = EntityState.Modified;
                 db.SaveChanges();
+
+                // Edit link in db
+                link modified_link = db.Link.FirstOrDefault(l => l.parentId == mproduct.ID &&
+                    l.tableId == 1);
+                if (modified_link != null)
+                {
+                    modified_link.slug = mproduct.slug;
+                    db.Entry(modified_link).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
 
                 ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID > 2).ToList();
 
