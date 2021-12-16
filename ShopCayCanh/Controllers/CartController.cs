@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopCayCanh.Library;
 //using System.Web.Script.Serialization;
 
 namespace ShopCayCanh.Controllers
@@ -12,10 +13,10 @@ namespace ShopCayCanh.Controllers
     {
         // khởi tạo session:
         private const string SessionCart = "SessionCart";
-        // GET: Cart
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
 
 
+        // GET: Cart
         public ActionResult Index()
         {
             var cart = Session[SessionCart];
@@ -36,21 +37,40 @@ namespace ShopCayCanh.Controllers
             if (cart != null)
             {
                 list = (List<Cart_item>)cart;
-                foreach (var item1 in list)
+                //foreach (var item1 in list)
+                //{
+                //    if (item1.product.pricesale > 0)
+                //    {
+                //        int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
+
+                //        priceTotol += temp;
+                //    }
+                //    else
+                //    {
+                //        int temp = (int)item1.product.price * (int)item1.quantity;
+                //        priceTotol += temp;
+                //    }
+
+                //}
+                IIterator<Cart_item> iterator = new CartItemIterator(list);
+                var item = iterator.First();
+                while (!iterator.IsDone)
                 {
-                    if (item1.product.pricesale > 0)
+                    if (item.product.pricesale > 0)
                     {
-                        int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
+                        int temp = (((int)item.product.price) - ((int)item.product.price / 100 * (int)item.product.pricesale)) * ((int)item.quantity);
 
                         priceTotol += temp;
                     }
                     else
                     {
-                        int temp = (int)item1.product.price * (int)item1.quantity;
+                        int temp = (int)item.product.price * (int)item.quantity;
                         priceTotol += temp;
                     }
 
+                    item = iterator.Next();
                 }
+
             }
             ViewBag.CartTotal = priceTotol;
             return View(list);
@@ -104,39 +124,49 @@ namespace ShopCayCanh.Controllers
                 {
                     int quantity1 = 0;
                     bool bad = false;
-                    foreach (var item1 in list)
+
+                    IIterator<Cart_item> iterator = new CartItemIterator(list);
+                    var item1 = iterator.First();
+                    while (!iterator.IsDone)
                     {
                         if (item1.product.ID == productID)
                         {
                             if ((item1.quantity + quantity) > (item1.product.number - item1.product.sold))
                             {
-                                 bad = true;
-                               
+                                bad = true;
+
                             }
-                            else {
+                            else
+                            {
                                 item1.quantity += quantity;
                                 quantity1 = item1.quantity;
                             }
-                           
+
                         }
+
+                        item1 = iterator.Next();
                     }
+
                     int priceTotol = 0;
-                    
-    
-                    foreach (var item1 in list)
+
+                    item1 = iterator.First();
+                    while(!iterator.IsDone)
                     {
                         if (item1.product.pricesale > 0)
                         {
                             int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
-                           
+
                             priceTotol += temp;
                         }
-                        else {
+                        else
+                        {
                             int temp = (int)item1.product.price * (int)item1.quantity;
                             priceTotol += temp;
                         }
-                     
+
+                        item1 = iterator.Next();
                     }
+
                     return Json(new
                     {  
                         ProductPrice = ((int)product.price) - (((int)product.price / 100) * ((int)product.pricesale)),
@@ -167,7 +197,9 @@ namespace ShopCayCanh.Controllers
                         item.countCart = list.Count();
                         item.meThod = "cartExist";
                         int priceTotol = 0;
-                        foreach (var item1 in list)
+                        IIterator<Cart_item> iterator = new CartItemIterator(list);
+                        var item1 = iterator.First();
+                        while(!iterator.IsDone)
                         {
                             if (item1.product.pricesale > 0)
                             {
@@ -180,7 +212,10 @@ namespace ShopCayCanh.Controllers
                                 int temp = (int)item1.product.price * (int)item1.quantity;
                                 priceTotol += temp;
                             }
+
+                            item1 = iterator.Next();
                         }
+
                         item.priceTotal = priceTotol;
                         item.priceSaleee = (int)product.price - (int)product.price / 100 * (int)product.pricesale;
                     }

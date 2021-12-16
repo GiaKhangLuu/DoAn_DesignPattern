@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Create category";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-
 }
 
 @{
@@ -29,7 +28,6 @@
         listcatitem = new SelectListItem() { Value = item.ID + "", Text = "Con của [" + item.name + "]" };
         listcat.Add(listcatitem);
     }
-
 }
 @Html.Partial("~/Areas/Admin/Views/Shared/_topMenu.cshtml")
 @Html.Partial("~/Areas/Admin/Views/Shared/_leftMenu.cshtml")
@@ -117,4 +115,4 @@
     <script>
     $("#category").addClass("active");
     </script>
-
+</div>

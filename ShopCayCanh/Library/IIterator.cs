@@ -7,6 +7,12 @@ using ShopCayCanh.Models;
 
 namespace ShopCayCanh.Library
 {
+
+    /* 
+    ===================================================================================
+                                 INTERFACE ITERATOR DEFINITIONS
+    ===================================================================================
+    */
     internal interface IIterator<T>
     {
         T First();
@@ -15,6 +21,13 @@ namespace ShopCayCanh.Library
         T CurrentItem { get; }
 
     }
+
+
+    /* 
+    ===================================================================================
+                                 ORDER ITERATOR DEFINITIONS
+    ===================================================================================
+    */
 
     public class OrderIterator : IIterator<Morder>
     {
@@ -58,6 +71,13 @@ namespace ShopCayCanh.Library
         }
     }
 
+
+    /* 
+    ===================================================================================
+                                 STRING ITERATOR DEFINITIONS
+    ===================================================================================
+    */
+
     public class StringIterator : IIterator<String>
     {
         List<String> _list_item;
@@ -92,6 +112,55 @@ namespace ShopCayCanh.Library
             if (!IsDone)
             {
                 return _list_item[current];
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+
+    /* 
+    ===================================================================================
+                                 CART ITEM ITERATOR DEFINITIONS
+    ===================================================================================
+    */
+
+    public class CartItemIterator : IIterator<Cart_item>
+    {
+        List<Cart_item> _list_cart_item;
+        int current = 0;
+        int step = 1;
+
+        public CartItemIterator(List<Cart_item> list_cart_item)
+        {
+            _list_cart_item = list_cart_item;
+        }
+
+        public bool IsDone
+        {
+            get { return current >= _list_cart_item.Count; }
+        }
+
+        public Cart_item CurrentItem => _list_cart_item[current];
+
+        public Cart_item First()
+        {
+            current = 0;
+            if (_list_cart_item.Count > 0)
+            {
+                return _list_cart_item[current];
+            }
+            return null;
+        }
+
+        public Cart_item Next()
+        {
+            current += step;
+            if (!IsDone)
+            {
+                return _list_cart_item[current];
             }
             else
             {
