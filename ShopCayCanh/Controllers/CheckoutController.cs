@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ShopCayCanh.Library;
 
 namespace ShopCayCanh.Controllers
 {
@@ -201,9 +202,11 @@ namespace ShopCayCanh.Controllers
                 ViewBag.address = order.deliveryaddress;
                 ViewBag.code = order.code;
                 ViewBag.phone = order.deliveryphone;
-                Mordersdetail orderdetail = new Mordersdetail();
-
-                foreach (var item in list)
+                Mordersdetail orderdetail = new Mordersdetail();          
+                
+                IIterator<Cart_item> iterator = new CartItemIterator(list);
+                var item = iterator.First();
+                while(!iterator.IsDone)
                 {
                     float price = 0;
                     int sale = (int)item.product.pricesale;
@@ -215,6 +218,7 @@ namespace ShopCayCanh.Controllers
                     {
                         price = (float)item.product.price * (int)item.quantity;
                     }
+
                     orderdetail.orderid = order.ID;
                     orderdetail.productid = item.product.ID;
                     orderdetail.priceSale = (int)item.product.pricesale;
@@ -223,16 +227,19 @@ namespace ShopCayCanh.Controllers
                     orderdetail.amount = price;
 
                     db.Orderdetails.Add(orderdetail);
-                    db.SaveChanges();     
-                    var updatedProduct = db.Products.Find(item.product.ID);    
+                    db.SaveChanges();
+
+                    var updatedProduct = db.Products.Find(item.product.ID);
                     updatedProduct.number = (int)updatedProduct.number - (int)item.quantity;
+
                     db.Products.Attach(updatedProduct);
                     db.Entry(updatedProduct).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    item = iterator.Next();
                 }
-                
+
             }
         }
-        //
     }
 }
