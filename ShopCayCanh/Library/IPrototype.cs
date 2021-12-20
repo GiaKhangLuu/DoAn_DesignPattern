@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopCayCanh.Models
+namespace ShopCayCanh.Library
 {
     public interface IPrototype
     {

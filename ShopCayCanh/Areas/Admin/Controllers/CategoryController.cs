@@ -81,12 +81,18 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 mcategory.created_by = int.Parse(Session["Admin_id"].ToString());
                 mcategory.updated_by = int.Parse(Session["Admin_id"].ToString());
 
-                //db.Categorys.Add(mcategory);
-                //db.SaveChanges();
-
                 Singleton_Category.GetInstance.Add(mcategory);
 
                 Message.set_flash("Thêm  thành công", "success");
+
+                // Add link to db
+                link link = new link();
+                link.slug = mcategory.slug;
+                link.tableId = 2;
+                link.type = "category";
+                link.parentId = mcategory.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
 
                 return RedirectToAction("index");
             }
@@ -137,10 +143,21 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 db.Entry(mcategory).State = EntityState.Modified;
                 db.SaveChanges();
 
+                // Edit link in db
+                link modified_link = db.Link.FirstOrDefault(l => l.parentId == mcategory.ID &&
+                    l.tableId == 2);
+                if (modified_link != null)
+                {
+                    modified_link.slug = mcategory.slug;
+                    db.Entry(modified_link).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                Message.set_flash("Sửa thành công", "success");
                 return RedirectToAction("Index");
             }
 
-            Message.set_flash("Sửa thất bại", "success");
+            Message.set_flash("Sửa thất bại", "danger");
 
             return View(mcategory);
         }

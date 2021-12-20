@@ -36,7 +36,7 @@ namespace ShopCayCanh.Controllers
                     else if (link.type == "category" && link.tableId == 2)
                     {
 
-                        return this.productOfCategory(slug);
+                        return this.productOfCategory(slug, parentId);
                     }
                     else if (link.type == "topic" && link.tableId == 3)
                     {
@@ -83,10 +83,10 @@ namespace ShopCayCanh.Controllers
         }
 
 
-        public ActionResult productOfCategory(String slug)
+        public ActionResult productOfCategory(String slug, int parentId)
         {
             var list_cat = Singleton_Category.GetInstance.list_cat;
-            var catid = list_cat.Where(m => m.slug == slug).First();
+            var catid = list_cat.Where(m => m.slug == slug && m.ID == parentId).First();
 
             return View("category", catid);
         }

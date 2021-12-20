@@ -134,6 +134,7 @@
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Library\IIterator.cs" />
+    <Compile Include="Library\IPrototype.cs" />
     <Compile Include="Library\Message.cs" />
     <Compile Include="Controllers\LienheController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
@@ -145,7 +146,6 @@
     <Compile Include="Library\Mystring.cs" />
     <Compile Include="Library\Util.cs" />
     <Compile Include="Models\Cart_item.cs" />
-    <Compile Include="Models\IPrototype.cs" />
     <Compile Include="Models\link.cs" />
     <Compile Include="Models\Mcategory.cs" />
     <Compile Include="Models\Mcontact.cs" />
