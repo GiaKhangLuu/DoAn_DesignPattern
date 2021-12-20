@@ -6,13 +6,8 @@ namespace ShopCayCanh.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public interface ProductPrototype
-    {
-        ProductPrototype Clone();
-    }
-
     [Table("product")]
-    public partial class Mproduct : ProductPrototype
+    public partial class Mproduct : IPrototype
     {
         public int ID { get; set; }
 
@@ -59,7 +54,7 @@ namespace ShopCayCanh.Models
         public int status { get; set; }
         public int sold { get; set; }
 
-        public ProductPrototype Clone()
+        public IPrototype Clone()
         {
             Mproduct mproduct = new Mproduct();
             mproduct.catid = this.catid;

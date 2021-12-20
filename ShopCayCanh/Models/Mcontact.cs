@@ -7,7 +7,7 @@ namespace ShopCayCanh.Models
     using System.Data.Entity.Spatial;
 
     [Table("contact")]
-    public partial class Mcontact
+    public partial class Mcontact : IPrototype
     {
         public int ID { get; set; }
 
@@ -37,5 +37,21 @@ namespace ShopCayCanh.Models
         public int? updated_by { get; set; }
 
         public int status { get; set; }
+
+        public IPrototype Clone()
+        {
+            Mcontact mcontact = new Mcontact();
+            mcontact.fullname = this.fullname;
+            mcontact.email = this.email;
+            mcontact.phone = this.phone;
+            mcontact.title = this.title;
+            mcontact.detail = this.detail;
+            mcontact.created_at = this.created_at;
+            mcontact.created_by = this.created_by;
+            mcontact.updated_at = this.updated_at;
+            mcontact.updated_by = this.updated_by;
+            mcontact.status = this.status;
+            return mcontact;
+        }
     }
 }

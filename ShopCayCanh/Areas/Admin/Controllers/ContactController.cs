@@ -118,5 +118,45 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
+        // GET: Admin/Contact/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            if (mcontact == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(mcontact);
+        }
+
+
+        // POST: Admin/Products/Duplicate/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Duplicate(int ID, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                var contact = db.Contacts.Where(c => c.ID == ID).First();
+                var clone_contact = (Mcontact)contact.Clone();
+
+                Single_Contact.GetInstance.Add(clone_contact);
+             
+                Message.set_flash("Nhân bản thành công", "success");
+                return RedirectToAction("index");
+            }
+
+            Message.set_flash("Nhân bản thất bại", "danger");
+            return RedirectToAction("index");
+        }
     }
 }

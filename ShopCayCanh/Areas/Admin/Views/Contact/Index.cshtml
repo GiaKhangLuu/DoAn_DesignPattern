@@ -82,7 +82,9 @@
                                             <a class="btn btn-sm btn-light border a33 text-danger" href="@Url.Action("Status", "contact", new { id = item.ID })"> <i class="fas fa-toggle-off"></i> </a>
                                         }
                                         <a class="btn btn-sm btn-light border text-danger" href="@Url.Action("Deltrash", "contact", new { id = item.ID })"> <i class="fas fa-trash-alt"></i></a>
-
+                                        <a class="btn btn-sm btn-light text-secondary border" href="@Url.Action("Duplicate", "contact", new { id = item.ID })">
+                                            <i class="fas fa-clone"></i>
+                                        </a>
                                     </td>
                                     <td class="text-cam pt-4">@Html.DisplayFor(modelItem => item.ID)</td>
                                 </tr>

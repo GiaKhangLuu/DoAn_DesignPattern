@@ -332,11 +332,11 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 db.Link.Add(link);
                 db.SaveChanges();
 
-                Message.set_flash("Thêm thành công", "success");
+                Message.set_flash("Nhân bản thành công", "success");
                 return RedirectToAction("index");
             }
 
-            Message.set_flash("Thêm Thất Bại", "danger");
+            Message.set_flash("Nhân bản thất bại", "danger");
             return View(mproduct);
         }
     }

@@ -145,6 +145,7 @@
     <Compile Include="Library\Mystring.cs" />
     <Compile Include="Library\Util.cs" />
     <Compile Include="Models\Cart_item.cs" />
+    <Compile Include="Models\IPrototype.cs" />
     <Compile Include="Models\link.cs" />
     <Compile Include="Models\Mcategory.cs" />
     <Compile Include="Models\Mcontact.cs" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Duplicate.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Duplicate.cshtml" />
     <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
