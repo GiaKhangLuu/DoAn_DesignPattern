@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -75,6 +76,17 @@ namespace ShopCayCanh.Models
         public void Remove(Mcontact mcontact)
         {
             context.Contacts.Remove(mcontact);
+            context.SaveChanges();
+
+            list_contact.Clear();
+
+            Init();
+        }
+
+
+        public void Update(Mcontact mcontact)
+        {
+            context.Entry(mcontact).State = EntityState.Modified;
             context.SaveChanges();
 
             list_contact.Clear();

@@ -146,7 +146,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var contact = db.Contacts.Where(c => c.ID == ID).First();
+                var contact = Single_Contact.GetInstance.Find(ID);
                 var clone_contact = (Mcontact)contact.Clone();
 
                 Single_Contact.GetInstance.Add(clone_contact);

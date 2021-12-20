@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -26,7 +27,6 @@ namespace ShopCayCanh.Models
 
 
         private Singleton_Category() {
-            context = new ShopCayCanhDbContext();
             Init();
         }
 
@@ -36,12 +36,7 @@ namespace ShopCayCanh.Models
 
             if (list_cat.Count == 0)
             {
-                //var categories = context.Menus
-                //    .Include(c => c.CategoryChildren)
-                //    .AsEnumerable()
-                //    .Where(c => c.ParentCategory == null)
-                //    .ToList();
-
+                context = new ShopCayCanhDbContext();
                 var cats = context.Categorys.ToList();
 
                 foreach (var item in cats)
@@ -55,12 +50,6 @@ namespace ShopCayCanh.Models
         {
             return context.Categorys.Find(value);
         }
-
-        //public void update(appdbcontext context)
-        //{
-        //    listcatgegory.clear();
-        //    init(context);
-        //}
 
         public void Add(Mcategory mcategory)
         {
@@ -79,6 +68,12 @@ namespace ShopCayCanh.Models
 
             list_cat.Clear();
 
+            Init();
+        }
+
+        public void Refresh()
+        {
+            list_cat.Clear();
             Init();
         }
     }
