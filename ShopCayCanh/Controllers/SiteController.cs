@@ -11,7 +11,7 @@ namespace ShopCayCanh.Controllers
     {
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
         // GET: Site
-        public ActionResult Index(String slug = "")
+        public ActionResult Index(int parentId, String slug = "")
         {
             int page = 1;
             if (!string.IsNullOrEmpty(Request.QueryString["page"]))
@@ -31,7 +31,7 @@ namespace ShopCayCanh.Controllers
                     var link = rowlink.First();
                     if (link.type == "ProductDetail" && link.tableId == 1)
                     {
-                        return this.ProductDetail(slug);
+                        return this.ProductDetail(slug, parentId);
                     }
                     else if (link.type == "category" && link.tableId == 2)
                     {
@@ -76,9 +76,9 @@ namespace ShopCayCanh.Controllers
         }
 
 
-        private ActionResult ProductDetail(String slug)
+        private ActionResult ProductDetail(String slug, int parentId)
         {
-            var list = db.Products.Where(m => m.status == 1 && m.slug == slug).First();
+            var list = db.Products.Where(m => m.status == 1 && m.slug == slug && m.ID == parentId).First();
             return View("ProductDetail", list);
         }
 

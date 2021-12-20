@@ -87,6 +87,9 @@
                                     <a class="btn btn-sm btn-light text-warning border" href="@Url.Action("Edit", "Products", new { id = item.ID })">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <a class="btn btn-sm btn-light text-secondary border" href="@Url.Action("Duplicate", "Products", new { id = item.ID })">
+                                        <i class="fas fa-clone"></i>
+                                    </a>
                                 </td>
                                 <td class="text-cam ">@Html.DisplayFor(modelItem => item.ID)</td>
                             </tr>

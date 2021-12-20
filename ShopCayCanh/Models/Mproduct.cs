@@ -6,8 +6,13 @@ namespace ShopCayCanh.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    public interface ProductPrototype
+    {
+        ProductPrototype Clone();
+    }
+
     [Table("product")]
-    public partial class Mproduct
+    public partial class Mproduct : ProductPrototype
     {
         public int ID { get; set; }
 
@@ -53,5 +58,28 @@ namespace ShopCayCanh.Models
 
         public int status { get; set; }
         public int sold { get; set; }
+
+        public ProductPrototype Clone()
+        {
+            Mproduct mproduct = new Mproduct();
+            mproduct.catid = this.catid;
+            mproduct.Submenu = this.Submenu;
+            mproduct.name = this.name;
+            mproduct.slug = this.slug;
+            mproduct.img = this.img;
+            mproduct.detail = this.detail;
+            mproduct.number = this.number;  
+            mproduct.price = this.price;
+            mproduct.pricesale = this.pricesale;
+            mproduct.metakey = this.metakey;
+            mproduct.metadesc = this.metadesc;
+            mproduct.created_at = this.created_at;
+            mproduct.created_by = this.created_by;
+            mproduct.updated_at = this.updated_at;
+            mproduct.updated_by = this.updated_by;
+            mproduct.status = this.status;
+            mproduct.sold = this.sold;
+            return mproduct;
+        }
     }
 }

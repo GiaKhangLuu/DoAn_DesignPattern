@@ -279,5 +279,65 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
+
+        // GET: Admin/Products/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            var list_cat = Singleton_Category.GetInstance.list_cat;
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Mproduct mproduct = db.Products.Find(id);
+            if (mproduct == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID > 2).ToList();
+            return View(mproduct);
+        }
+
+
+        // POST: Admin/Products/Duplicate/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Duplicate(Mproduct mproduct, HttpPostedFileBase file)
+        {
+            var list_cat = Singleton_Category.GetInstance.list_cat;
+            ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID > 2).ToList();
+
+            if (ModelState.IsValid)
+            {
+                string slug = Mystring.ToSlug(mproduct.name.ToString());
+              
+                var product = db.Products.Where(p => p.ID == mproduct.ID).First();
+                var clone_product = (Mproduct)product.Clone();
+                clone_product.slug = slug;
+
+                db.Products.Add(clone_product);
+                db.SaveChanges();
+
+                // Add link to db
+                link link = new link();
+                link.slug = clone_product.slug;
+                link.tableId = 1;
+                link.type = "ProductDetail";
+                link.parentId = clone_product.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
+                Message.set_flash("Thêm thành công", "success");
+                return RedirectToAction("index");
+            }
+
+            Message.set_flash("Thêm Thất Bại", "danger");
+            return View(mproduct);
+        }
     }
 }
