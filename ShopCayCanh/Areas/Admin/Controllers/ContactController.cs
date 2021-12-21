@@ -20,7 +20,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
    
         public ActionResult Index()
         {
-            var list_contact = Single_Contact.GetInstance.list_contact;
+            var list_contact = Singleton_Contact.GetInstance.list_contact;
             var list = list_contact.Where(m => m.status > 0).ToList();
 
             return View(list);
@@ -34,7 +34,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
             if (mcontact == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
   
         public ActionResult Status(int id)
         {
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
 
             mcontact.status = (mcontact.status == 1) ? 2 : 1;
             mcontact.updated_at = DateTime.Now;
@@ -54,6 +54,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mcontact).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Contact.GetInstance.Refresh();
 
             Message.set_flash("Thay đổi trang thái thành công", "success");
 
@@ -64,7 +65,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         //trash
         public ActionResult trash()
         {
-            var list_contact = Single_Contact.GetInstance.list_contact;
+            var list_contact = Singleton_Contact.GetInstance.list_contact;
             var list = list_contact.Where(m => m.status == 0).ToList();
 
             return View("Trash", list);
@@ -73,7 +74,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Deltrash(int id)
         {
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
 
             mcontact.status = 0;
             mcontact.updated_at = DateTime.Now;
@@ -81,6 +82,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mcontact).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Contact.GetInstance.Refresh();
 
             Message.set_flash("Xóa thành công", "success");
 
@@ -90,7 +92,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Retrash(int id)
         {
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
 
             mcontact.status = 2;
             mcontact.updated_at = DateTime.Now;
@@ -98,6 +100,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mcontact).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Contact.GetInstance.Refresh();
 
             Message.set_flash("khôi phục thành công", "success");
 
@@ -107,11 +110,8 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult deleteTrash(int id)
         {
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
-
-            //db.Contacts.Remove(mcontact);
-            //db.SaveChanges();
-            Single_Contact.GetInstance.Remove(mcontact);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
+            Singleton_Contact.GetInstance.Remove(mcontact);
 
             Message.set_flash("Đã xóa vĩnh viễn 1 Liên Hệ", "success");
 
@@ -126,7 +126,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Mcontact mcontact = Single_Contact.GetInstance.Find(id);
+            Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
             if (mcontact == null)
             {
                 return HttpNotFound();
@@ -146,10 +146,10 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var contact = Single_Contact.GetInstance.Find(ID);
+                var contact = Singleton_Contact.GetInstance.Find(ID);
                 var clone_contact = (Mcontact)contact.Clone();
 
-                Single_Contact.GetInstance.Add(clone_contact);
+                Singleton_Contact.GetInstance.Add(clone_contact);
              
                 Message.set_flash("Nhân bản thành công", "success");
                 return RedirectToAction("index");

@@ -28,7 +28,7 @@ namespace ShopCayCanh.Controllers
 
                 //db.Contacts.Add(contact);
                 //db.SaveChanges();
-                Single_Contact.GetInstance.Add(contact);
+                Singleton_Contact.GetInstance.Add(contact);
 
                 Message.set_flash("Gửi liên hệ thành công", "success");
 

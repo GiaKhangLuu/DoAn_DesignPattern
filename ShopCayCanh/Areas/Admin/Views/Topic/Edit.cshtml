@@ -32,12 +32,12 @@
         <div class="container-fluid">
             <div class="row m-0 bg-light">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Thêm Loại Bài Viết</h1>
+                    <h1 class="m-0 text-dark">Sửa Loại Bài Viết</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/Admin">Home</a></li>
-                        <li class="breadcrumb-item active">Thêm loại bài viết</li>
+                        <li class="breadcrumb-item active">Sửa loại bài viết</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -50,15 +50,17 @@
         @Html.Partial("_MessgeAlert")
         <div class=" bg-white p-4 ">
 
-            @using (Html.BeginForm("Create", "topic"))
+            @using (Html.BeginForm("Edit", "topic"))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.ID)
+                @Html.HiddenFor(model => model.created_at)
+                @Html.HiddenFor(model => model.created_by)
                 @Html.HiddenFor(model => model.updated_at)
                 @Html.HiddenFor(model => model.updated_by)
                 <div class=" row ">
                     <div class="col-md-4">  </div>
-                    <div class="col-md-4"> <h3 class="text-center font-weight-bold text-success "> THÊM LOẠI BÀI VIẾT</h3> </div>
+                    <div class="col-md-4"> <h3 class="text-center font-weight-bold text-success "> SỬA LOẠI BÀI VIẾT</h3> </div>
                     <div class="col-md-4 ">
                         <div class="float-right">
                             <button class="btn btn-sm bg-success text-white"><i class="far fa-save"></i> Lưu</button>

@@ -5,43 +5,36 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
-    public sealed class Single_Slider
+    public sealed class Singleton_Slider
     {
         
         public List<Mslider> list_slider { get; } = new List<Mslider>();
         private ShopCayCanhDbContext context = null;
-        private static Single_Slider instance;
+        private static Singleton_Slider instance;
 
-        public static Single_Slider GetInstance
+        public static Singleton_Slider GetInstance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new Single_Slider();
+                    instance = new Singleton_Slider();
                 }
                 return instance;
             }          
         }
 
 
-        private Single_Slider() {
-            context = new ShopCayCanhDbContext();
+        private Singleton_Slider() {
             Init();
         }
 
         // only One time
         public void Init()
         {
-
+            context = new ShopCayCanhDbContext();
             if (list_slider.Count == 0)
             {
-                //var categories = context.Menus
-                //    .Include(c => c.CategoryChildren)
-                //    .AsEnumerable()
-                //    .Where(c => c.ParentCategory == null)
-                //    .ToList();
-
                 var sliders = context.Sliders.ToList();
 
                 foreach (var item in sliders)
@@ -55,12 +48,6 @@ namespace ShopCayCanh.Models
         {
             return context.Sliders.Find(value);
         }
-
-        //public void Update(AppDbContext context)
-        //{
-        //    listCatgegory.Clear();
-        //    Init(context);
-        //}
 
         public void Add(Mslider mslider)
         {

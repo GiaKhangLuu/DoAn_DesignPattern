@@ -19,11 +19,10 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         // GET: Admin/Topic
         public ActionResult Index()
         {
-            
-            var list = db.topics.Where(m => m.status !=0).OrderByDescending(m => m.ID).ToList();
+            var list_topic = Singleton_Topic.GetInstance.list_topic;
+            var list = list_topic.Where(m => m.status !=0).OrderByDescending(m => m.ID).ToList();
             return View(list);
         }
-
 
         // GET: Admin/Topic/Details/5
         public ActionResult Details(int? id)
@@ -32,7 +31,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mtopic mtopic = db.topics.Find(id);
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
             if (mtopic == null)
             {
                 return HttpNotFound();
@@ -40,14 +39,13 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mtopic);
         }
 
-
         // GET: Admin/Topic/Create
         public ActionResult Create()
         {
-            ViewBag.listtopic = db.topics.Where(m => m.status != 0).ToList();
+            var list_topic = Singleton_Topic.GetInstance.list_topic;
+            ViewBag.listtopic = list_topic.Where(m => m.status != 0).ToList();
             return View();
         }
-
 
         // POST: Admin/Topic/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -57,6 +55,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         public ActionResult Create(Mtopic mtopic)
         {
             var list_cat = Singleton_Category.GetInstance.list_cat;
+            var list_topic = Singleton_Topic.GetInstance.list_topic;
             if (ModelState.IsValid)
             {
                 //category
@@ -69,7 +68,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 //topic
 
-                if (db.topics.Where(m => m.slug == slug).Count() > 0)
+                if (list_topic.Where(m => m.slug == slug).Count() > 0)
                 {
                     Message.set_flash("Chủ đề đã tồn tại trong bảng Topic", "danger");
                     return View(mtopic);
@@ -87,18 +86,16 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 mtopic.created_by = int.Parse(Session["Admin_id"].ToString());
                 mtopic.updated_by = int.Parse(Session["Admin_id"].ToString());
 
-                db.topics.Add(mtopic);
-                db.SaveChanges();
+                Singleton_Topic.GetInstance.Add(mtopic);
 
                 Message.set_flash("Thêm thành công", "success");
                 return RedirectToAction("Index");
             }
             Message.set_flash("Thêm thất bại", "danger");
 
-            ViewBag.listtopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listtopic = list_topic.Where(m => m.status != 0).ToList();
             return View(mtopic);
         }
-
 
         // GET: Admin/Topic/Edit/5
         public ActionResult Edit(int? id)
@@ -108,16 +105,16 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Mtopic mtopic = db.topics.Find(id);
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
             if (mtopic == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.listtopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listtopic = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status != 0).ToList();
             return View(mtopic);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,68 +123,80 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 string slug = Mystring.ToSlug(mtopic.name.ToString());
-
-
+                mtopic.slug = slug;
                 mtopic.updated_at = DateTime.Now;
                 mtopic.updated_by = int.Parse(Session["Admin_id"].ToString());
+
                 db.Entry(mtopic).State = EntityState.Modified;
                 db.SaveChanges();
+                Singleton_Topic.GetInstance.Refresh();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.listtopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listtopic = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status != 0).ToList();
             return View(mtopic);
         }
 
         public ActionResult Status(int id)
         {
-            Mtopic mtopic = db.topics.Find(id);
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
             mtopic.status = (mtopic.status == 1) ? 2 : 1;
             mtopic.updated_at = DateTime.Now;
             mtopic.updated_by = int.Parse(Session["Admin_id"].ToString());
+
             db.Entry(mtopic).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Topic.GetInstance.Refresh();
+
             Message.set_flash("Thay đổi trang thái thành công", "success");
             return RedirectToAction("Index");
         }
 
-
         //trash
         public ActionResult trash()
         {
-            var list = db.topics.Where(m => m.status == 0).ToList();
+            var list = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status == 0).ToList();
             return View("Trash", list);
         }
 
-
         public ActionResult Deltrash(int id)
         {
-            Mtopic mtopic = db.topics.Find(id);
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
             mtopic.status = 0;
             mtopic.updated_at = DateTime.Now;
             mtopic.updated_by = int.Parse(Session["Admin_id"].ToString());
+
             db.Entry(mtopic).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Topic.GetInstance.Refresh();
+
             Message.set_flash("Xóa thành công", "success");
             return RedirectToAction("Index");
         }
 
         public ActionResult Retrash(int id)
         {
-            Mtopic mtopic = db.topics.Find(id);
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
             mtopic.status = 2;
             mtopic.updated_at = DateTime.Now;
             mtopic.updated_by = int.Parse(Session["Admin_id"].ToString());
+
             db.Entry(mtopic).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Topic.GetInstance.Refresh();
+
             Message.set_flash("Khôi phục thành Công", "success");
             return RedirectToAction("trash");
         }
 
         public ActionResult deleteTrash(int id)
         {
-            Mtopic mtopic = db.topics.Find(id);
-            db.topics.Remove(mtopic);
-            db.SaveChanges();
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
+
+            Singleton_Topic.GetInstance.Remove(mtopic);
+
             Message.set_flash("Đã xóa vĩnh viễn 1 Chủ đề", "success");
             return RedirectToAction("trash");
         }

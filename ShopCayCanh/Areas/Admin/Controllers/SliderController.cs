@@ -20,7 +20,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         // GET: Admin/Slider
         public ActionResult Index()
         {
-            var list_slider = Single_Slider.GetInstance.list_slider;
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
             var list = list_slider.Where(m => m.status != 0).OrderByDescending(m => m.ID).ToList();
 
             return View(list);
@@ -35,7 +35,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
             if (mslider == null)
             {
                 return HttpNotFound();
@@ -48,7 +48,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         // GET: Admin/Slider/Create
         public ActionResult Create()
         {
-            var list_slider = Single_Slider.GetInstance.list_slider;
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
             ViewBag.listCate = list_slider.Where(m => m.status != 0 ).ToList();
 
             return View();
@@ -79,7 +79,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 mslider.created_by = int.Parse(Session["Admin_id"].ToString());
                 mslider.updated_by = int.Parse(Session["Admin_id"].ToString());
 
-                Single_Slider.GetInstance.Add(mslider);
+                Singleton_Slider.GetInstance.Add(mslider);
 
                 Message.set_flash("Thêm thành công", "success");
 
@@ -94,7 +94,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Edit(int? id)
         {
-            var list_slider = Single_Slider.GetInstance.list_slider;
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
             ViewBag.listCate = list_slider.Where(m => m.status != 0).ToList();
 
             if (id == null)
@@ -102,7 +102,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
             if (mslider == null)
             {
                 return HttpNotFound();
@@ -142,7 +142,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            var list_slider = Single_Slider.GetInstance.list_slider;
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
             ViewBag.listCate = list_slider.Where(m => m.status != 0).ToList();
 
             return View(mslider);
@@ -151,7 +151,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Status(int id)
         {
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
 
             mslider.status = (mslider.status == 1) ? 2 : 1;
             mslider.updated_at = DateTime.Now;
@@ -168,7 +168,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult trash()
         {
-            var list_slider = Single_Slider.GetInstance.list_slider;
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
             var list = list_slider.Where(m => m.status == 0).ToList();
 
             return View("Trash", list);
@@ -177,7 +177,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Deltrash(int id)
         {
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
 
             mslider.status = 0;
             mslider.updated_at = DateTime.Now;
@@ -194,7 +194,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult Retrash(int id)
         {
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
 
             mslider.status = 2;
             mslider.updated_at = DateTime.Now;
@@ -211,9 +211,9 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
         public ActionResult deleteTrash(int id)
         {
-            Mslider mslider = Single_Slider.GetInstance.Find(id);
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
 
-            Single_Slider.GetInstance.Remove(mslider);
+            Singleton_Slider.GetInstance.Remove(mslider);
 
             Message.set_flash("Đã xóa vĩnh viễn 1 Ảnh bìa", "success");
 

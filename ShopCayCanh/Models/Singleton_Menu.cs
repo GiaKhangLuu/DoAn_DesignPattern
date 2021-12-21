@@ -26,22 +26,15 @@ namespace ShopCayCanh.Models
 
 
         private Singleton_Menu() {
-            context = new ShopCayCanhDbContext();
             Init();
         }
 
         // only One time
         public void Init()
         {
-
+            context = new ShopCayCanhDbContext();
             if (list_menu.Count == 0)
             {
-                //var categories = context.Menus
-                //    .Include(c => c.CategoryChildren)
-                //    .AsEnumerable()
-                //    .Where(c => c.ParentCategory == null)
-                //    .ToList();
-
                 var menus = context.Menus.ToList();
 
                 foreach (var item in menus)

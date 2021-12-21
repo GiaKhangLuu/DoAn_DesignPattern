@@ -149,6 +149,7 @@
     <Compile Include="Models\link.cs" />
     <Compile Include="Models\Mcategory.cs" />
     <Compile Include="Models\Mcontact.cs" />
+    <Compile Include="Models\Singleton_Topic.cs" />
     <Compile Include="Models\Singleton_Contact.cs" />
     <Compile Include="Models\Singleton_Slider.cs" />
     <Compile Include="Models\Singleton_Category.cs" />

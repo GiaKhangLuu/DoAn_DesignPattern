@@ -89,7 +89,7 @@ namespace ShopCayCanh.Controllers
         }
         public ActionResult slider()
         {
-            var list = Single_Slider.GetInstance.list_slider;
+            var list = Singleton_Slider.GetInstance.list_slider;
 
             list = list
                 .Where(m => m.status == 1 && m.position == "SliderShow").OrderBy(m => m.orders).ToList();

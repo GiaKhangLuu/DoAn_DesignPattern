@@ -30,7 +30,6 @@ namespace ShopCayCanh.Models
             Init();
         }
 
-        // only One time
         public void Init()
         {
 
@@ -55,20 +54,14 @@ namespace ShopCayCanh.Models
         {
             context.Categorys.Add(mcategory);
             context.SaveChanges();
-
-            list_cat.Clear();
-
-            Init();
+            Refresh();
         }
 
         public void Remove(Mcategory mcategory)
         {
             context.Categorys.Remove(mcategory);
             context.SaveChanges();
-
-            list_cat.Clear();
-
-            Init();
+            Refresh(); 
         }
 
         public void Refresh()

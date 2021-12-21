@@ -6,66 +6,65 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
-    public sealed class Singleton_Contact
+    public sealed class Singleton_Topic
     {
         
-        public List<Mcontact> list_contact { get; } = new List<Mcontact>();
+        public List<Mtopic> list_topic { get; } = new List<Mtopic>();
         private ShopCayCanhDbContext context = null;
-        private static Singleton_Contact instance;
+        private static Singleton_Topic instance;
 
-        public static Singleton_Contact GetInstance
+        public static Singleton_Topic GetInstance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new Singleton_Contact();
+                    instance = new Singleton_Topic();
                 }
                 return instance;
             }          
         }
 
-        private Singleton_Contact() {
+        private Singleton_Topic() {
             Init();
         }
 
         public void Init()
         {
             context = new ShopCayCanhDbContext();
-            if (list_contact.Count == 0)
+            if (list_topic.Count == 0)
             {
-                var contacts = context.Contacts.ToList();
+                var contacts = context.topics.ToList();
 
                 foreach (var item in contacts)
                 {
-                    list_contact.Add(item);
+                    list_topic.Add(item);
                 }
             }
         }
 
-        public Mcontact Find(int? value)
+        public Mtopic Find(int? value)
         {
-            return context.Contacts.Find(value);
+            return context.topics.Find(value);
         }
 
-        public void Add(Mcontact mcontact)
+        public void Add(Mtopic mtopic)
         {
-            context.Contacts.Add(mcontact);
+            context.topics.Add(mtopic);
             context.SaveChanges();
             Refresh();
         }
 
-        public void Remove(Mcontact mcontact)
+        public void Remove(Mtopic mtopic)
         {
-            context.Contacts.Remove(mcontact);
+            context.topics.Remove(mtopic);
             context.SaveChanges();
             Refresh();
         }
-
 
         public void Refresh()
         {
-            list_contact.Clear();          
+            list_topic.Clear();
             Init();
         }
     }
