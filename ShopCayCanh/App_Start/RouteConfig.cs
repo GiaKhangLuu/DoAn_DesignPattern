@@ -134,7 +134,7 @@ namespace ShopCayCanh
          );
             routes.MapRoute(
       name: "slug",
-      url: "{parentId}/{slug}",
+      url: "{id}/{slug}",
       defaults: new { controller = "Site", action = "index", id = UrlParameter.Optional }
       );
             routes.MapRoute(

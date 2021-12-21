@@ -181,6 +181,7 @@
     <Content Include="Areas\Admin\Views\Products\Duplicate.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Duplicate.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Duplicate.cshtml" />
+    <Content Include="Areas\Admin\Views\Topic\Duplicate.cshtml" />
     <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />

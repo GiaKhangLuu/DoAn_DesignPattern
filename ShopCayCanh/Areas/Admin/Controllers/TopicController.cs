@@ -88,6 +88,15 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 Singleton_Topic.GetInstance.Add(mtopic);
 
+                // Add link to db
+                link link = new link();
+                link.slug = mtopic.slug;
+                link.tableId = 3;
+                link.type = "topic";
+                link.parentId = mtopic.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
                 Message.set_flash("Thêm thành công", "success");
                 return RedirectToAction("Index");
             }
@@ -116,6 +125,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mtopic);
         }
 
+        // POST: Admin/Topic/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Mtopic mtopic)
@@ -130,6 +140,16 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 db.Entry(mtopic).State = EntityState.Modified;
                 db.SaveChanges();
                 Singleton_Topic.GetInstance.Refresh();
+
+                // Edit link in db
+                link modified_link = db.Link.FirstOrDefault(l => l.parentId == mtopic.ID &&
+                    l.tableId == 3);
+                if (modified_link != null)
+                {
+                    modified_link.slug = mtopic.slug;
+                    db.Entry(modified_link).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
 
                 return RedirectToAction("Index");
             }
@@ -199,6 +219,54 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             Message.set_flash("Đã xóa vĩnh viễn 1 Chủ đề", "success");
             return RedirectToAction("trash");
+        }
+
+        // GET: Admin/Topic/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Mtopic mtopic = Singleton_Topic.GetInstance.Find(id);
+            if (mtopic == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.listtopic = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status != 0).ToList();
+            return View(mtopic);
+        }
+
+        // POST: Admin/Topic/Duplicate/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Duplicate(Mtopic mtopic)
+        {
+            if (ModelState.IsValid)
+            {
+                var topic = Singleton_Topic.GetInstance.Find(mtopic.ID);
+                var clone_topic = (Mtopic)topic.Clone();
+
+                Singleton_Topic.GetInstance.Add(clone_topic);
+
+                // Add link to db
+                link link = new link();
+                link.slug = clone_topic.slug;
+                link.tableId = 3;
+                link.type = "topic";
+                link.parentId = clone_topic.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
+                Message.set_flash("Nhân bản thành công", "success");
+                return RedirectToAction("Index");
+            }
+            ViewBag.listtopic = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status != 0).ToList();
+            return View(mtopic);
         }
     }
 }
