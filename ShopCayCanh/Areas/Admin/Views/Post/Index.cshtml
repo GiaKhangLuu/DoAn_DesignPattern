@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Quản Lý Sản Phẩm</li>
+                        <li class="breadcrumb-item active">Quản Lý Bài Viết</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -88,11 +88,12 @@
                                         {
                                             <a class="btn btn-sm btn-light text-danger border a33" href="@Url.Action("Status", "post", new { id = item.ID })"> <i class="fas fa-toggle-off"></i> </a>
                                         }
-
-
                                         <a class="btn btn-sm btn-light text-danger border" href="@Url.Action("Deltrash", "post", new { id = item.ID })"> <i class="fas fa-trash-alt"></i></a>
                                         <a class="btn btn-sm btn-light text-warning border" href="@Url.Action("Edit", "post", new { id = item.ID })">
                                             <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-light text-secondary border" href="@Url.Action("Duplicate", "post", new { id = item.ID })">
+                                            <i class="fas fa-clone"></i>
                                         </a>
                                     </td>
                                     <td class="text-cam">@Html.DisplayFor(modelItem => item.ID)</td>

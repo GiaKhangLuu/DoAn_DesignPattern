@@ -24,7 +24,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/Post/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,13 +39,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mpost);
         }
 
-
         // GET: Admin/Post/Create
         public ActionResult Create()
         {
-            ViewBag.listTopic = db.topics.Where(m => m.status != 0 ).ToList();
+            ViewBag.listTopic = Singleton_Topic.GetInstance.list_topic.Where(m => m.status != 0 ).ToList();
             return View();
         }
+
+        // POST: Admin/Post/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -55,7 +55,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 HttpPostedFileBase file;
-                var namecateDb = db.topics.Where(m => m.ID == mpost.topid).First();
+                var namecateDb = Singleton_Topic.GetInstance.list_topic.Where(m => m.ID == mpost.topid).First();
                 string slug = Mystring.ToSlug(mpost.title.ToString());
                 string namecate = Mystring.ToStringNospace(namecateDb.name);
                 file = Request.Files["img"];
@@ -78,14 +78,23 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 mpost.updated_by = int.Parse(Session["Admin_id"].ToString());
                 db.posts.Add(mpost);
                 db.SaveChanges();
+
+                // Add link to db
+                link link = new link();
+                link.slug = mpost.slug;
+                link.tableId = 4;
+                link.type = "PostDetail";
+                link.parentId = mpost.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
                 Message.set_flash("Thêm thành công", "success");
                 return RedirectToAction("Index");
             }
-            ViewBag.listTopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listTopic = Singleton_Topic.GetInstance.list_topic.Where(m => m.status != 0).ToList();
             Message.set_flash("Thêm Thất Bại", "danger");
             return View(mpost);
         }
-
 
         // GET: Admin/Post/Edit/5
         public ActionResult Edit(int? id)
@@ -99,11 +108,11 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.listTopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listTopic = Singleton_Topic.GetInstance.list_topic.Where(m => m.status != 0).ToList();
             return View(mpost);
         }
 
-
+        // POST: Admin/Post/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -135,17 +144,26 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                 mpost.updated_by = int.Parse(Session["Admin_id"].ToString());
                 db.Entry(mpost).State = EntityState.Modified;
                 db.SaveChanges();
+
+                // Edit link in db
+                link modified_link = db.Link.FirstOrDefault(l => l.parentId == mpost.ID &&
+                    l.tableId == 4);
+                if (modified_link != null)
+                {
+                    modified_link.slug = mpost.slug;
+                    db.Entry(modified_link).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
                 Message.set_flash("Sửa thành công", "success");
-                db.Entry(mpost).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.listTopic = db.topics.Where(m => m.status != 0).ToList();
+            ViewBag.listTopic = Singleton_Topic.GetInstance.list_topic.Where(m => m.status != 0).ToList();
             Message.set_flash("Sửa Thất Bại", "danger");
             return View(mpost);
         }
 
-
+        // delete
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -160,7 +178,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mpost);
         }
 
-
+        // status
         public ActionResult Status(int id)
         {
             Mpost mpost = db.posts.Find(id);
@@ -173,14 +191,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
+        // trash
         public ActionResult trash()
         {
             var list = db.posts.Where(m => m.status == 0).ToList();
             return View("Trash", list);
         }
 
-
+        // del trash
         public ActionResult Deltrash(int id)
         {
             Mpost mpost = db.posts.Find(id);
@@ -193,6 +211,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // retrash
         public ActionResult Retrash(int id)
         {
             Mpost mpost = db.posts.Find(id);
@@ -205,7 +224,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
-
+        // delete trash
         public ActionResult deleteTrash(int id)
         {
             Mpost mpost = db.posts.Find(id);
@@ -213,6 +232,53 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             db.SaveChanges();
             Message.set_flash("Đã xóa vĩnh viễn 1 sản phẩm", "success");
             return RedirectToAction("trash");
+        }
+
+        // GET: Admin/Post/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Mpost mpost = db.posts.Find(id);
+            if (mpost == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.listTopic = Singleton_Topic.GetInstance.list_topic.Where(m => m.status != 0).ToList();
+            return View(mpost);
+        }
+
+        // POST: Admin/Post/Duplicate/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Duplicate(Mpost mpost)
+        {
+            if (ModelState.IsValid)
+            {
+                var post = db.posts.Find(mpost.ID);
+                var clone_post = (Mpost)post.Clone();
+
+                db.posts.Add(clone_post);
+                db.SaveChanges();
+
+                // Add link to db
+                link link = new link();
+                link.slug = clone_post.slug;
+                link.tableId = 4;
+                link.type = "PostDetail";
+                link.parentId = clone_post.ID;
+                db.Link.Add(link);
+                db.SaveChanges();
+
+                Message.set_flash("Nhân bản thành công", "success");
+                return RedirectToAction("Index");
+            }
+            ViewBag.listtopic = Singleton_Topic.GetInstance.list_topic.
+                Where(m => m.status != 0).ToList();
+            return View(mpost);
         }
     }
 }

@@ -31,7 +31,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/Category/Create
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]     
         public ActionResult Create()
@@ -42,7 +41,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View();
         }
-
 
         // POST: Admin/Category/Create
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]
@@ -105,7 +103,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mcategory);
         }
 
-
         // GET: Admin/Category/Edit/5
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]      
         public ActionResult Edit(int? id)
@@ -126,7 +123,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View(mcategory);
         }
-
 
         // POST: Admin/Category/Edit/5
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]
@@ -165,7 +161,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mcategory);
         }
 
-
         //status
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]       
         public ActionResult Status(int id)
@@ -185,7 +180,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         //trash
         [CustomAuthorizeAttribute(RoleID = "SALESMAN")]     
         public ActionResult trash()
@@ -194,7 +188,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View("Trash", list);
         }
-
 
         public ActionResult Deltrash(int id)
         {
@@ -212,7 +205,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
        
-
         public ActionResult Retrash(int id)
         {
             Mcategory mcategory = Singleton_Category.GetInstance.Find(id);
@@ -230,7 +222,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
-
         public ActionResult deleteTrash(int id)
         {
             Mcategory mcategory = Singleton_Category.GetInstance.Find(id);
@@ -241,7 +232,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return RedirectToAction("trash");
         }
-
 
         // GET: Admin/Category/Duplicate/5
         public ActionResult Duplicate(int? id)
@@ -262,7 +252,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View(mcategory);
         }
-
 
         // POST: Admin/Category/Duplicate/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
