@@ -24,12 +24,10 @@ namespace ShopCayCanh.Models
             }          
         }
 
-
         private Singleton_Menu() {
             Init();
         }
 
-        // only One time
         public void Init()
         {
             context = new ShopCayCanhDbContext();
@@ -49,29 +47,22 @@ namespace ShopCayCanh.Models
             return context.Menus.Find(value);
         }
 
-        //public void Update(AppDbContext context)
-        //{
-        //    listCatgegory.Clear();
-        //    Init(context);
-        //}
-
         public void Add(Mmenu mmenu)
         {
             context.Menus.Add(mmenu);
             context.SaveChanges();
-
-            list_menu.Clear();
-
-            Init();
+            Refresh();
         }
-
         public void Remove(Mmenu mmenu)
         {
             context.Menus.Remove(mmenu);
             context.SaveChanges();
+            Refresh();         
+        }
 
+        public void Refresh()
+        {
             list_menu.Clear();
-
             Init();
         }
     }

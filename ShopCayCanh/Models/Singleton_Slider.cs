@@ -24,12 +24,10 @@ namespace ShopCayCanh.Models
             }          
         }
 
-
         private Singleton_Slider() {
             Init();
         }
 
-        // only One time
         public void Init()
         {
             context = new ShopCayCanhDbContext();
@@ -53,19 +51,19 @@ namespace ShopCayCanh.Models
         {
             context.Sliders.Add(mslider);
             context.SaveChanges();
-
-            list_slider.Clear();
-
-            Init();
+            Refresh();
         }
 
         public void Remove(Mslider mslider)
         {
             context.Sliders.Remove(mslider);
             context.SaveChanges();
+            Refresh();   
+        }
 
+        public void Refresh()
+        {
             list_slider.Clear();
-
             Init();
         }
     }

@@ -26,7 +26,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/Slider/Details/5
         public ActionResult Details(int? id)
         {
@@ -44,7 +43,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mslider);
         }
 
-
         // GET: Admin/Slider/Create
         public ActionResult Create()
         {
@@ -53,7 +51,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View();
         }
-
 
         // POST: Admin/Slider/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -91,7 +88,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mslider);
         }
 
-
+        // GET: Admin/Slider/Edit/5
         public ActionResult Edit(int? id)
         {
             var list_slider = Singleton_Slider.GetInstance.list_slider;
@@ -111,7 +108,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mslider);
         }
 
-
+        // POST: Admin/Slider/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Mslider mslider)
@@ -138,6 +135,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 db.Entry(mslider).State = EntityState.Modified;
                 db.SaveChanges();
+                Singleton_Slider.GetInstance.Refresh();
 
                 return RedirectToAction("Index");
             }
@@ -148,7 +146,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mslider);
         }
 
-
+        // status
         public ActionResult Status(int id)
         {
             Mslider mslider = Singleton_Slider.GetInstance.Find(id);
@@ -159,13 +157,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mslider).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Slider.GetInstance.Refresh();
 
             Message.set_flash("Thay đổi trang thái thành công", "success");
 
             return RedirectToAction("Index");
         }
 
-
+        // trash
         public ActionResult trash()
         {
             var list_slider = Singleton_Slider.GetInstance.list_slider;
@@ -174,7 +173,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View("Trash", list);
         }
 
-
+        // del trash
         public ActionResult Deltrash(int id)
         {
             Mslider mslider = Singleton_Slider.GetInstance.Find(id);
@@ -185,13 +184,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mslider).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Slider.GetInstance.Refresh();
 
             Message.set_flash("Xóa thành côngss", "success");
 
             return RedirectToAction("Index");
         }
 
-
+        // retrash
         public ActionResult Retrash(int id)
         {
             Mslider mslider = Singleton_Slider.GetInstance.Find(id);
@@ -202,13 +202,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mslider).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Slider.GetInstance.Refresh();
 
             Message.set_flash("khôi phục thành công", "success");
 
             return RedirectToAction("trash");
         }
 
-
+        // delete trash
         public ActionResult deleteTrash(int id)
         {
             Mslider mslider = Singleton_Slider.GetInstance.Find(id);
@@ -218,6 +219,48 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             Message.set_flash("Đã xóa vĩnh viễn 1 Ảnh bìa", "success");
 
             return RedirectToAction("trash");
+        }
+
+        // GET: Admin/Slider/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
+            ViewBag.listCate = list_slider.Where(m => m.status != 0).ToList();
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Mslider mslider = Singleton_Slider.GetInstance.Find(id);
+            if (mslider == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(mslider);
+        }
+
+        // POST: Admin/Slider/Duplicate/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Duplicate(Mslider mslider)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Mslider slider = Singleton_Slider.GetInstance.Find(mslider.ID);
+                var clone_slider = (Mslider)slider.Clone();
+                Singleton_Slider.GetInstance.Add(clone_slider);
+
+                Message.set_flash("Nhân bản thành công", "success");
+                return RedirectToAction("Index");
+            }
+
+            var list_slider = Singleton_Slider.GetInstance.list_slider;
+            ViewBag.listCate = list_slider.Where(m => m.status != 0).ToList();
+
+            return View(mslider);
         }
 
     }
