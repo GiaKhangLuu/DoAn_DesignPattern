@@ -87,11 +87,12 @@
                                         {
                                             <a class="btn btn-sm btn-light text-danger border a33" href="@Url.Action("Status", "User", new { id = item.ID })"> <i class="fas fa-toggle-off"></i> </a>
                                         }
-
-
                                         <a class="btn btn-sm btn-light text-danger border" href="@Url.Action("Deltrash", "User", new { id = item.ID })"><i class="fas fa-trash-alt"></i></a>
                                         <a class="btn btn-sm btn-light text-warning border" href="@Url.Action("Edit", "User", new { id = item.ID })">
                                             <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-light text-secondary border" href="@Url.Action("Duplicate", "User", new { id = item.ID })">
+                                            <i class="fas fa-clone"></i>
                                         </a>
                                     </td>
                                     <td class="text-cam pt-4">@Html.DisplayFor(modelItem => item.ID)</td>

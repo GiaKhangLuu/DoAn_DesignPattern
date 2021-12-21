@@ -5,9 +5,10 @@ namespace ShopCayCanh.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using ShopCayCanh.Library;
 
     [Table("user")]
-    public partial class Muser
+    public partial class Muser : IPrototype
     {
         public int ID { get; set; }
 
@@ -49,5 +50,24 @@ namespace ShopCayCanh.Models
         public int updated_by { get; set; }
 
         public int status { get; set; }
+
+        public IPrototype Clone()
+        {
+            Muser muser = new Muser();
+            muser.fullname = this.fullname;
+            muser.username = this.username;
+            muser.password = this.password;
+            muser.email = this.email;
+            muser.gender = this.gender;
+            muser.phone = this.phone;
+            muser.img = this.img;
+            muser.access = this.access;
+            muser.created_at = this.created_at;
+            muser.created_by = this.created_by;
+            muser.updated_at = this.updated_at;
+            muser.updated_by = this.updated_by;
+            muser.status = this.status;
+            return muser;
+        }
     }
 }

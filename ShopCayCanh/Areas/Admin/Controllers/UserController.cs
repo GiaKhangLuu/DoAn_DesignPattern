@@ -24,7 +24,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/User/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,7 +39,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(muser);
         }
 
-
         // GET: Admin/User/Create
         public ActionResult Create()
         {
@@ -48,7 +46,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View();
         }
 
-
+        // POST: Admin/User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create( Muser muser, FormCollection data)
@@ -79,7 +77,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(muser);
         }
 
-
         // GET: Admin/User/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -96,7 +93,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(muser);
         }
 
-
+        // POST: Admin/User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit( Muser muser)
@@ -114,7 +111,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(muser);
         }
 
-
         //status
         public ActionResult Status(int id)
         {
@@ -128,7 +124,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         //trash
         public ActionResult trash()
         {
@@ -136,7 +131,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View("Trash", list);
         }
 
-
+        // del trash
         public ActionResult Deltrash(int id)
         {
             Muser muser = db.users.Find(id);
@@ -149,6 +144,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // retrash
         public ActionResult Retrash(int id)
         {
             Muser muser = db.users.Find(id);
@@ -161,7 +157,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
-
+        // delete trash
         public ActionResult deleteTrash(int id)
         {
             Muser muser = db.users.Find(id);
@@ -171,5 +167,37 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
+        // GET: Admin/User/Duplicate/5
+        public ActionResult Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Muser muser = db.users.Find(id);
+            if (muser == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.role = db.roles.ToList();
+            return View(muser);
+        }
+
+        // POST: Admin/User/Duplicate/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Duplicate(Muser muser, FormCollection data)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.users.Find(muser.ID);
+                var clone_user = (Muser)user.Clone();
+                db.users.Add(clone_user);
+                db.SaveChanges();
+                Message.set_flash("Nhân bản thành công", "success");
+                return RedirectToAction("Index");
+            }
+            return View(muser);
+        }
     }
 }
