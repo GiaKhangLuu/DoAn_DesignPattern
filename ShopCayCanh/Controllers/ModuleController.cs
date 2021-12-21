@@ -8,11 +8,8 @@ namespace ShopCayCanh.Controllers
     public class ModuleController : Controller
     {
         // GET: Module
-        //ShopCayCanhDbContext db = new ShopCayCanhDbContext();
-
         public ActionResult Mainmenu()
         {
-
             var list = Singleton_Menu.GetInstance.list_menu;
 
             list = list.Where(m => m.status == 1).
@@ -22,13 +19,10 @@ namespace ShopCayCanh.Controllers
             return View("_Mainmenu", list);
         }
 
-
         public ActionResult submainmenu(int parentid)
         {
             var list_menu = Singleton_Menu.GetInstance.list_menu;
-
-            
-
+          
             ViewBag.mainmenuitem = Singleton_Menu.GetInstance.Find(parentid);
 
             var list = list_menu.Where(m => m.status == 1).
@@ -46,7 +40,6 @@ namespace ShopCayCanh.Controllers
 
         }
 
-
         public ActionResult Listcategory()
         {
             var list = Singleton_Category.GetInstance.list_cat;
@@ -57,7 +50,6 @@ namespace ShopCayCanh.Controllers
 
             return View("_Listcategory", list);
         }
-
 
         public ActionResult ListcategoryAll()
         {
@@ -96,6 +88,7 @@ namespace ShopCayCanh.Controllers
 
             return View("_Slider", list);
         }
+
         public ActionResult header()
         {
             if (Session["id"].Equals(""))

@@ -46,32 +46,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     return RedirectToAction("index");
                 }
 
-                var arrcat = itemcatt.Split(',');
-
-                //foreach (var rcat in arrcat)
-                //{
-                //    int id = int.Parse(rcat);
-                //    Mpost post = db.posts.Find(id);
-                //    Mmenu menu = new Mmenu();
-
-                //    menu.name = post.title;
-                //    menu.link = post.slug;
-                //    menu.position = data["position"];
-                //    menu.type = "menu";
-                //    menu.tableid = 2;
-                //    menu.parentid = 0;
-                //    menu.orders = 1;
-                //    menu.created_at = DateTime.Now;
-                //    menu.updated_at = DateTime.Now;
-                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.status = 1;
-
-                //    Singleton_Menu.GetInstance.Add(menu);
-
-                //    Message.set_flash("Thêm thành công", "success");
-                //}
-
+                var arrcat = itemcatt.Split(',');              
                 IIterator<String> iterator = new StringIterator(arrcat.ToList());
                 var item = iterator.First();
                 while(!iterator.IsDone)
@@ -111,31 +86,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     return RedirectToAction("index");
                 }
 
-                var arrcat = itemcatt.Split(',');
-                //foreach (var rcat in arrcat)
-                //{
-                //    int id = int.Parse(rcat);
-                //    Mcategory mcategory = Singleton_Category.GetInstance.Find(id);
-                //    Mmenu menu = new Mmenu();
-
-                //    menu.name = mcategory.name;
-                //    menu.link = "loaiSP/"+mcategory.slug;
-                //    menu.position = data["position"];
-                //    menu.type = "menu";
-                //    menu.tableid = 2;
-                //    menu.parentid = 0;
-                //    menu.orders = 1;
-                //    menu.created_at = DateTime.Now;
-                //    menu.updated_at = DateTime.Now;
-                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.status = 1;
-
-                //    Singleton_Menu.GetInstance.Add(menu);
-
-                //    Message.set_flash("Thêm thành công", "success");
-                //}
-
+                var arrcat = itemcatt.Split(',');              
                 IIterator<String> iterator = new StringIterator(arrcat.ToList());
                 var item = iterator.First();
                 while(!iterator.IsDone)
@@ -174,31 +125,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     Message.set_flash("Bạn chưa chọn", "danger");
                     return RedirectToAction("index");
                 }
-                var arrcat = itemcatt.Split(',');
-                //foreach (var rcat in arrcat)
-                //{
-                //    int id = int.Parse(rcat);
-                //    Mtopic mtopic = db.topics.Find(id);
-                //    Mmenu menu = new Mmenu();
-
-                //    menu.name = mtopic.name;
-                //    menu.link = mtopic.slug;
-                //    menu.position = data["position"];
-                //    menu.type = "menu";
-                //    menu.tableid = 2;
-                //    menu.parentid = 0;
-                //    menu.orders = 1;
-                //    menu.created_at = DateTime.Now;
-                //    menu.updated_at = DateTime.Now;
-                //    menu.created_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.updated_by = int.Parse(Session["Admin_id"].ToString());
-                //    menu.status = 1;
-
-                //    Singleton_Menu.GetInstance.Add(menu);
-
-                //    Message.set_flash("Thêm thành công", "success");
-                //}
-
+                var arrcat = itemcatt.Split(',');              
                 IIterator<String> iterator = new StringIterator(arrcat.ToList());
                 var item = iterator.First();
                 while(!iterator.IsDone)
@@ -300,7 +227,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mmenu);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,name,type,link,tableid,parentid,orders,position,created_at,created_by,updated_at,updated_by,status")] Mmenu mmenu)
@@ -312,6 +238,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
                 db.Entry(mmenu).State = EntityState.Modified;
                 db.SaveChanges();
+                Singleton_Menu.GetInstance.Refresh();
 
                 Message.set_flash("Chỉnh sửa thành công", "success");
 
@@ -331,12 +258,12 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mmenu).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Menu.GetInstance.Refresh();
 
             Message.set_flash("Thay đổi trang thái thành công", "success");
 
             return RedirectToAction("Index");
         }
-
 
         //trash
         public ActionResult trash()
@@ -346,7 +273,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View("Trash", list);
         }
-
 
         public ActionResult Deltrash(int id)
         {
@@ -358,12 +284,12 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mmenu).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Menu.GetInstance.Refresh();
 
             Message.set_flash("Xóa thành công", "success");
 
             return RedirectToAction("Index");
         }
-
 
         public ActionResult Retrash(int id)
         {
@@ -375,6 +301,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             db.Entry(mmenu).State = EntityState.Modified;
             db.SaveChanges();
+            Singleton_Menu.GetInstance.Refresh();
 
             Message.set_flash("khôi phục thành công", "success");
 
