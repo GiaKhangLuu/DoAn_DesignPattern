@@ -10,6 +10,7 @@ namespace ShopCayCanh.Controllers
     public class SiteController : Controller
     {
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
+
         // GET: Site
         public ActionResult Index(int id, String slug = "")
         {
@@ -44,7 +45,7 @@ namespace ShopCayCanh.Controllers
                     }
                     else if (link.type == "PostDetail" && link.tableId == 4)
                     {
-                        return this.postDetaail(slug);
+                        return this.postDetaail(slug, id);
                     }
                 }
                 else
@@ -57,7 +58,6 @@ namespace ShopCayCanh.Controllers
           
         }
 
-
         public ActionResult home()
         {
             var list_cat = Singleton_Category.GetInstance.list_cat;
@@ -68,7 +68,6 @@ namespace ShopCayCanh.Controllers
             return View("Index", list);
         }
 
-
         public ActionResult topic_category(String slug, int id)
         {
             var list_topic = Singleton_Topic.GetInstance.list_topic;
@@ -76,13 +75,11 @@ namespace ShopCayCanh.Controllers
             return View("post_category", topic);
         }
 
-
         private ActionResult ProductDetail(String slug, int id)
         {
             var list = db.Products.Where(m => m.status == 1 && m.slug == slug && m.ID == id).First();
             return View("ProductDetail", list);
         }
-
 
         public ActionResult productOfCategory(String slug, int id)
         {
@@ -92,13 +89,11 @@ namespace ShopCayCanh.Controllers
             return View("category", catid);
         }
 
-
-        public ActionResult postDetaail(String slug)
+        public ActionResult postDetaail(String slug, int id)
         {
-            var detail = db.posts.Where(m => m.status == 1 && m.slug == slug).First();
+            var detail = db.posts.Where(m => m.status == 1 && m.slug == slug && m.ID == id).First();
             return View("post_detail", detail);
         }
-
 
         public ActionResult page404()
         {
