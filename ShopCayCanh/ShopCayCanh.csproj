@@ -135,6 +135,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Library\IIterator.cs" />
     <Compile Include="Library\IPrototype.cs" />
+    <Compile Include="Library\IUser.cs" />
     <Compile Include="Library\Message.cs" />
     <Compile Include="Controllers\LienheController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
@@ -186,6 +187,7 @@
     <Content Include="Areas\Admin\Views\Slider\Duplicate.cshtml" />
     <Content Include="Areas\Admin\Views\User\Duplicate.cshtml" />
     <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Library\invalid_name.txt" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
     <Content Include="Views\web.config">

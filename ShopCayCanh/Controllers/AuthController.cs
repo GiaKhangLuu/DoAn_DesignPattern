@@ -51,7 +51,6 @@ namespace ShopCayCanh.Controllers
                 Response.Redirect("~/");
         }
 
-
         public void logout()
         {
             Session["id"] = "";
@@ -68,42 +67,41 @@ namespace ShopCayCanh.Controllers
             string email = fc["email"];
             string phone = fc["phone"];
             if (ModelState.IsValid)
-            {
-                var Luser = db.users.Where(m => m.status == 1 && m.username == uname && m.access == 1);
-                if (Luser.Count() > 0)
+            {               
+                muser.img = "defalt.png";
+                muser.password = Pass;
+                muser.username = uname;
+                muser.fullname = fname;
+                muser.email = email;
+                muser.phone = phone;
+                muser.gender = "nam";
+                muser.access = 1;
+                muser.created_at = DateTime.Now;
+                muser.updated_at = DateTime.Now;
+                muser.created_by = 1;
+                muser.updated_by = 1;
+                muser.status = 1;
+
+                // Initialize PROXY object
+                var proxy_user = new ProxyUser(muser);
+                var status_code = proxy_user.Register(db);
+                if(status_code == UserStatusCode.REGISTER_SUCCESSFULLY)
                 {
-                    Message.set_flash("Tên Đăng nhập đã tồn tại", "success");
+                    Message.set_flash(status_code, "success");
                     Response.Redirect("~/");
-                }
+                }              
                 else
                 {
-                    muser.img = "defalt.png";
-                    muser.password = Pass;
-                    muser.username = uname;
-                    muser.fullname = fname;
-                    muser.email = email;
-                    muser.phone = phone;
-                    muser.gender = "nam";
-                    muser.access = 1;
-                    muser.created_at = DateTime.Now;
-                    muser.updated_at = DateTime.Now;
-                    muser.created_by = 1;
-                    muser.updated_by = 1;
-                    muser.status = 1;
-                    db.users.Add(muser);
-                    db.SaveChanges();
-                    Message.set_flash("Tạo user  thành công", "success");
+                    Message.set_flash(status_code, "error");
                     Response.Redirect("~/");
                 }
             }
         }
 
-
         public ActionResult forgetpass()
         {
             return View();
         }
-
 
         public ActionResult newPasswordFG(int? id)
         {
@@ -118,7 +116,6 @@ namespace ShopCayCanh.Controllers
             }
             return View("_newPasswordFG", muser);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -160,7 +157,6 @@ namespace ShopCayCanh.Controllers
             return View("_newPasswordFG", muser);
         }
 
-
         public ActionResult sendMail()
         {
             //var username = Request.QueryString["username"];
@@ -194,6 +190,5 @@ namespace ShopCayCanh.Controllers
                 return View("sendMailFinish");
             }
         }
-
     }
 }
