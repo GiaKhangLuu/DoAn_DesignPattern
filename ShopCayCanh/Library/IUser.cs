@@ -19,7 +19,9 @@ namespace ShopCayCanh.Library
         public static readonly string INVALID_EMAIL = "Email không hợp lệ";
         public static readonly string INVALID_PHONE = "Số điện thoại không hợp lệ";
         public static readonly string INVALID_NAME = "Tên không hợp lệ";
-        public static readonly string REGISTER_SUCCESSFULLY = "Tạo user  thành công";
+        public static readonly string REGISTER_SUCCESSFULLY = "Tạo user thành công";
+        public static readonly string EDIT_SUCCESSFULLY = "Cập nhật thành công";
+
     }
 
     // ==============================================================
@@ -28,6 +30,7 @@ namespace ShopCayCanh.Library
     internal interface IUser
     {
         string Register(ShopCayCanhDbContext context);
+        string Edit(ShopCayCanhDbContext context);
     }
 
     // ==============================================================
@@ -123,6 +126,27 @@ namespace ShopCayCanh.Library
                 }
             }           
             return true;
+        }
+
+        public string Edit(ShopCayCanhDbContext context)
+        {
+            if (!Is_Email_Valid(_user.email))
+            {
+                return UserStatusCode.INVALID_EMAIL;
+            }
+            if (!Is_Password_Valid(_user.password))
+            {
+                return UserStatusCode.INVALID_PASSWORD;
+            }
+            if (!Is_Phone_Valid(_user.phone))
+            {
+                return UserStatusCode.INVALID_PHONE;
+            }
+            if (!Is_Name_Valid(_user.fullname))
+            {
+                return UserStatusCode.INVALID_NAME;
+            }
+            return _user.Edit(context);
         }
     }
 }

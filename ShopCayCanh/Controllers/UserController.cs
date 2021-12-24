@@ -45,9 +45,19 @@ namespace ShopCayCanh.Controllers
                 muser.updated_at = DateTime.Now;
                 muser.created_by = int.Parse(Session["id"].ToString());
                 muser.updated_by = int.Parse(Session["id"].ToString());
-                db.Entry(muser).State = EntityState.Modified;
-                db.SaveChanges();
-                Message.set_flash("Cập nhật thành công", "success");
+
+                // Initialize PROXY object
+                var proxy_user = new ProxyUser(muser);
+                var status_code = proxy_user.Edit(db);
+                if(status_code == UserStatusCode.EDIT_SUCCESSFULLY)
+                {
+                    Message.set_flash(status_code, "success");
+                }
+                else
+                {
+                    Message.set_flash(status_code, "error");
+                }
+
                 return View("index", muser);
             }
             return View("index", muser);
@@ -114,8 +124,6 @@ namespace ShopCayCanh.Controllers
                 }
                 }
                 return View("_changePassword", muser);
-            }
-
-            
+            }            
         }
     }

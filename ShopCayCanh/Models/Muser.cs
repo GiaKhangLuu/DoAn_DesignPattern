@@ -4,6 +4,7 @@ namespace ShopCayCanh.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity;
     using System.Data.Entity.Spatial;
     using System.Linq;
     using ShopCayCanh.Library;
@@ -69,6 +70,13 @@ namespace ShopCayCanh.Models
             muser.updated_by = this.updated_by;
             muser.status = this.status;
             return muser;
+        }
+
+        public string Edit(ShopCayCanhDbContext context)
+        {
+            context.Entry(this).State = EntityState.Modified;
+            context.SaveChanges();
+            return UserStatusCode.EDIT_SUCCESSFULLY;
         }
 
         public string Register(ShopCayCanhDbContext context)
