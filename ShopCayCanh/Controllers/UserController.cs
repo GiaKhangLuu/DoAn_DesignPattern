@@ -49,7 +49,7 @@ namespace ShopCayCanh.Controllers
                 // Initialize PROXY object
                 var proxy_user = new ProxyUser(muser);
                 var status_code = proxy_user.Edit(db);
-                if(status_code == UserStatusCode.EDIT_SUCCESSFULLY)
+                if (status_code == UserStatusCode.EDIT_SUCCESSFULLY)
                 {
                     Message.set_flash(status_code, "success");
                 }
@@ -80,50 +80,32 @@ namespace ShopCayCanh.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassWord(Muser muser ,FormCollection fc)
+        public async Task<ActionResult> ChangePassWord(Muser muser, FormCollection fc)
         {
-            string oldPass = Mystring.ToMD5(    fc["passOld"]);
-            string rePass = Mystring.ToMD5(fc["rePass"]);
-            string newPass = Mystring.ToMD5(fc["password1"]);
-            var pass_account = db.users.Where(m => m.password == oldPass).ToList().Count();
-            if (pass_account==0)
+            if (ModelState.IsValid)
             {
-                    ViewBag.status = "Mật khẩu không đúng";
-                    return View("_changePassword", muser);
-            }
-                else if (rePass != newPass)
+                string oldPass = Mystring.ToMD5(fc["passOld"]);
+                string rePass = Mystring.ToMD5(fc["rePass"]);
+                string newPass = Mystring.ToMD5(fc["password1"]);
+
+                var user = db.users.Find(muser.ID);
+
+                // Initialize Proxy object
+                var proxy_user = new ProxyUser(user);
+                string status_code = await proxy_user.ChangePassword(db, oldPass, rePass, newPass);
+
+                if (status_code == UserStatusCode.CHANGE_PASSWORD_SUCCESSFULLY)
                 {
-                    ViewBag.status = "2 Mật khẩu không khớp";
-                    return View("_changePassword", muser);
+                    Message.set_flash(status_code, "success");
+                    return Redirect("~/tai-khoan/" + muser.ID + "");
                 }
                 else
                 {
-                if (ModelState.IsValid)
-                {
-                    var updatedPass = db.users.Find(muser.ID);
-
-                    updatedPass.fullname = muser.fullname;
-                    updatedPass.username = muser.username;
-                    updatedPass.email = muser.email;
-                    updatedPass.phone = muser.phone;
-                    updatedPass.gender = muser.gender;
-                    updatedPass.img = "bav";
-                    updatedPass.password = newPass;
-                    updatedPass.access = 1;
-                    updatedPass.created_at = muser.created_at;
-                    updatedPass.updated_at = DateTime.Now;
-                    updatedPass.created_by = muser.created_by;
-                    updatedPass.updated_by = int.Parse(Session["id"].ToString());
-                    updatedPass.status = 1;
-
-                    db.users.Attach(updatedPass);
-                    db.Entry(updatedPass).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-                    Message.set_flash("Đổi mật khẩu thành công", "success");
-                    return Redirect("~/tai-khoan/" + muser.ID + "");
+                    ViewBag.status = status_code;
+                    return View("_changePassword", muser);
                 }
-                }
-                return View("_changePassword", muser);
-            }            
+            }
+            return View("_changePassword", muser);
         }
     }
+}

@@ -21,7 +21,9 @@ namespace ShopCayCanh.Library
         public static readonly string INVALID_NAME = "Tên không hợp lệ";
         public static readonly string REGISTER_SUCCESSFULLY = "Tạo user thành công";
         public static readonly string EDIT_SUCCESSFULLY = "Cập nhật thành công";
-
+        public static readonly string CHANGE_PASSWORD_SUCCESSFULLY = "Đổi mật khẩu thành công";
+        public static readonly string WRONG_PASSWORD = "Mật khẩu không đúng";
+        public static readonly string PASSWORD_AND_CF_PASSWORD_ARE_NOT_SIMILAR = "2 Mật khẩu không khớp";
     }
 
     // ==============================================================
@@ -31,6 +33,7 @@ namespace ShopCayCanh.Library
     {
         string Register(ShopCayCanhDbContext context);
         string Edit(ShopCayCanhDbContext context);
+        Task<string> ChangePassword(ShopCayCanhDbContext context, string oldPass, string rePass, string newPass);
     }
 
     // ==============================================================
@@ -47,30 +50,30 @@ namespace ShopCayCanh.Library
 
         public string Register(ShopCayCanhDbContext context)
         {
-            if(!Is_Email_Valid(_user.email))
+            if(!_Is_Email_Valid(_user.email))
             {
                 return UserStatusCode.INVALID_EMAIL;
             }
-            if(!Is_Account_Not_Exist(_user.username, context))
+            if(!_Is_Account_Not_Exist(_user.username, context))
             {
                 return UserStatusCode.ACCOUNT_EXIST;
             }
-            if(!Is_Password_Valid(_user.password))
+            if(!_Is_Password_Valid(_user.password))
             {
                 return UserStatusCode.INVALID_PASSWORD;
             }
-            if(!Is_Phone_Valid(_user.phone))
+            if(!_Is_Phone_Valid(_user.phone))
             {
                 return UserStatusCode.INVALID_PHONE;
             }
-            if(!Is_Name_Valid(_user.fullname))
+            if(!_Is_Name_Valid(_user.fullname))
             {
                 return UserStatusCode.INVALID_NAME;
             }
             return _user.Register(context);
         }
 
-        private bool Is_Password_Valid(string password)
+        private bool _Is_Password_Valid(string password)
         {
             if(password == "")
             {
@@ -79,7 +82,7 @@ namespace ShopCayCanh.Library
             return true;
         }
 
-        private bool Is_Email_Valid(string email_address)
+        private bool _Is_Email_Valid(string email_address)
         {
             try
             {
@@ -92,7 +95,7 @@ namespace ShopCayCanh.Library
             }
         }
 
-        private bool Is_Account_Not_Exist(string account, ShopCayCanhDbContext context)
+        private bool _Is_Account_Not_Exist(string account, ShopCayCanhDbContext context)
         {
             
             var Luser = context.users.Where(m => m.status == 1 && m.username == account);
@@ -103,7 +106,7 @@ namespace ShopCayCanh.Library
             return true;
         }
 
-        private bool Is_Phone_Valid(string phone)
+        private bool _Is_Phone_Valid(string phone)
         {
             string phone_format = @"^[0]{1}\d{9}$";
             Regex phone_reg = new Regex(phone_format);
@@ -114,7 +117,7 @@ namespace ShopCayCanh.Library
             return false;
         }
 
-        private bool Is_Name_Valid(string name)
+        private bool _Is_Name_Valid(string name)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
             string[] lines = System.IO.File.ReadAllLines(path + "/Library/invalid_name.txt");
@@ -130,23 +133,40 @@ namespace ShopCayCanh.Library
 
         public string Edit(ShopCayCanhDbContext context)
         {
-            if (!Is_Email_Valid(_user.email))
+            if (!_Is_Email_Valid(_user.email))
             {
                 return UserStatusCode.INVALID_EMAIL;
             }
-            if (!Is_Password_Valid(_user.password))
+            if (!_Is_Password_Valid(_user.password))
             {
                 return UserStatusCode.INVALID_PASSWORD;
             }
-            if (!Is_Phone_Valid(_user.phone))
+            if (!_Is_Phone_Valid(_user.phone))
             {
                 return UserStatusCode.INVALID_PHONE;
             }
-            if (!Is_Name_Valid(_user.fullname))
+            if (!_Is_Name_Valid(_user.fullname))
             {
                 return UserStatusCode.INVALID_NAME;
             }
             return _user.Edit(context);
+        }
+
+        public async Task<string> ChangePassword(ShopCayCanhDbContext context, string oldPass, string rePass, string newPass)
+        {
+            
+            if (!_user.password.Equals(oldPass))
+            {
+                return UserStatusCode.WRONG_PASSWORD;
+            }
+            else if (rePass != newPass)
+            {
+                return UserStatusCode.PASSWORD_AND_CF_PASSWORD_ARE_NOT_SIMILAR;
+            }
+            else
+            {
+                return (await _user.ChangePassword(context, oldPass, rePass, newPass));
+            }
         }
     }
 }

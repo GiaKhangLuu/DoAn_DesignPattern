@@ -7,6 +7,7 @@ namespace ShopCayCanh.Models
     using System.Data.Entity;
     using System.Data.Entity.Spatial;
     using System.Linq;
+    using System.Threading.Tasks;
     using ShopCayCanh.Library;
 
     [Table("user")]
@@ -84,6 +85,14 @@ namespace ShopCayCanh.Models
             context.users.Add(this);
             context.SaveChanges();
             return UserStatusCode.REGISTER_SUCCESSFULLY;
+        }
+
+        public async Task<string> ChangePassword(ShopCayCanhDbContext context, string oldPass, string rePass, string newPass)
+        {
+            this.password = newPass;
+            context.Entry(this).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return UserStatusCode.CHANGE_PASSWORD_SUCCESSFULLY;
         }
 
 
