@@ -9,6 +9,7 @@ namespace ShopCayCanh.Common
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         public string RoleID { set; get; }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var session = (Userlogin)HttpContext.Current.Session[Common.CommonConstants.USER_SESSION];
@@ -26,6 +27,7 @@ namespace ShopCayCanh.Common
                 return false;
             }
         }
+
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             filterContext.Result = new ViewResult

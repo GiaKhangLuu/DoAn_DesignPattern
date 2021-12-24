@@ -15,7 +15,6 @@ namespace ShopCayCanh.Controllers
         private const string SessionCart = "SessionCart";
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
 
-
         // GET: Cart
         public ActionResult Index()
         {
@@ -28,7 +27,6 @@ namespace ShopCayCanh.Controllers
             return View(list);
         }
 
-
         public ActionResult card_header()
         {
             var cart = Session[SessionCart];
@@ -37,21 +35,6 @@ namespace ShopCayCanh.Controllers
             if (cart != null)
             {
                 list = (List<Cart_item>)cart;
-                //foreach (var item1 in list)
-                //{
-                //    if (item1.product.pricesale > 0)
-                //    {
-                //        int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
-
-                //        priceTotol += temp;
-                //    }
-                //    else
-                //    {
-                //        int temp = (int)item1.product.price * (int)item1.quantity;
-                //        priceTotol += temp;
-                //    }
-
-                //}
                 IIterator<Cart_item> iterator = new CartItemIterator(list);
                 var item = iterator.First();
                 while (!iterator.IsDone)
@@ -76,7 +59,6 @@ namespace ShopCayCanh.Controllers
             return View(list);
         }
 
-
         public RedirectToRouteResult updateitem(long P_SanPhamID, int P_quantity)
         {
             var cart = Session[SessionCart];
@@ -92,7 +74,6 @@ namespace ShopCayCanh.Controllers
             }
             return RedirectToAction("Index");
         }
-
 
         public RedirectToRouteResult deleteitem(long productID)
         {
@@ -110,7 +91,6 @@ namespace ShopCayCanh.Controllers
             }
             return RedirectToAction("Index");
         }
-
 
         public JsonResult Additem(long productID, int quantity)
         {

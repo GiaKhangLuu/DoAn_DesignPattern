@@ -5,10 +5,11 @@ namespace ShopCayCanh.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
     using ShopCayCanh.Library;
 
     [Table("user")]
-    public partial class Muser : IPrototype
+    public partial class Muser : IPrototype, IUser
     {
         public int ID { get; set; }
 
@@ -69,5 +70,14 @@ namespace ShopCayCanh.Models
             muser.status = this.status;
             return muser;
         }
+
+        public string Register(ShopCayCanhDbContext context)
+        {
+            context.users.Add(this);
+            context.SaveChanges();
+            return UserStatusCode.REGISTER_SUCCESSFULLY;
+        }
+
+
     }
 }

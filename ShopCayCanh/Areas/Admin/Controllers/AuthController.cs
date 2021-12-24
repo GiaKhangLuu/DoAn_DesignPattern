@@ -18,6 +18,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         {
             return View("_login");
         }
+
         [HttpPost]
         public ActionResult login(FormCollection fc)
         {

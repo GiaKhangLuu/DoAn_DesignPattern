@@ -16,7 +16,8 @@ namespace ShopCayCanh.Controllers
     {
 
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
-        // GET: Admin/User/Edit/5
+
+        // GET: User/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -31,7 +32,7 @@ namespace ShopCayCanh.Controllers
             return View("index", muser);
         }
 
-
+        // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Muser muser)
@@ -52,6 +53,7 @@ namespace ShopCayCanh.Controllers
             return View("index", muser);
         }
 
+        // change password
         public ActionResult ChangePassWord(int? id)
         {
             if (id == null)
@@ -65,7 +67,6 @@ namespace ShopCayCanh.Controllers
             }
             return View("_changePassword", muser);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
