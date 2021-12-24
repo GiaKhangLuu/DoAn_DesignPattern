@@ -29,7 +29,6 @@ namespace ShopCayCanh.Controllers
 
         }
 
-
         [HttpPost]
         public ActionResult Index(Morder order)
         {
@@ -126,13 +125,11 @@ namespace ShopCayCanh.Controllers
             return View("payment");
         }
 
-
         //Khi huy thanh toán Ngan Luong
         public ActionResult cancel_order(){
 
             return View("cancel_order");
         }
-
 
         //Khi thanh toán Ngan Luong XOng
         public ActionResult confirm_orderPaymentOnline() {
@@ -170,7 +167,6 @@ namespace ShopCayCanh.Controllers
 
             return View("confirm_orderPaymentOnline");
         }
-
 
         //function ssave order when order success!
         public void saveOrder(Morder order,string paymentMethod,int StatusPayment,string ordercode)

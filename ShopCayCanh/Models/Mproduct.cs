@@ -16,19 +16,15 @@ namespace ShopCayCanh.Models
 
         public int Submenu { get; set; }
 
-        
         public string name { get; set; }
-
         
         [StringLength(255)]
         public string slug { get; set; }
-
-       
+    
         [StringLength(100)]
         public string img { get; set; }
 
         [Column(TypeName = "ntext")]
-
         public string detail { get; set; }
 
         public int number { get; set; }
@@ -51,7 +47,6 @@ namespace ShopCayCanh.Models
         public DateTime updated_at { get; set; }
 
         public int updated_by { get; set; }
-
         public int status { get; set; }
         public int sold { get; set; }
 

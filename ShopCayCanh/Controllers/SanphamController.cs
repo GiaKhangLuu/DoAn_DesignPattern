@@ -9,9 +9,9 @@ namespace ShopCayCanh.Controllers
 {
     public class SanphamController : Controller
     {
-        // GET: Sanpham
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
 
+        // GET: Sanpham
         public ActionResult index(int? page)
         {
             var list = db.Products.Where(m => m.status == 1).OrderBy(m=>m.ID);
@@ -22,7 +22,6 @@ namespace ShopCayCanh.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-
         public ActionResult _productHome(int id)
         {
             var list = db.Products.Where(m => m.status == 1).
@@ -30,20 +29,17 @@ namespace ShopCayCanh.Controllers
             return View("_productHome", list);
         }
 
-
         public ActionResult _productNew()
         {
             var list = db.Products.Where(m => m.status == 1).OrderByDescending(m => m.ID).Take(8);
             return View("_productHome", list);
         }
 
-
         public ActionResult _productBestSeller()
         {
             var list = db.Products.Where(m => m.status == 1).OrderByDescending(m => m.sold).Take(8);
             return View("_productHome", list);
         }
-
 
         public ActionResult _productsale()
         {
@@ -53,7 +49,6 @@ namespace ShopCayCanh.Controllers
             return View("_ProductSale", list);
         }
 
-
         public ActionResult category(String slug)
         {
             var list_cat = Singleton_Category.GetInstance.list_cat;
@@ -62,20 +57,17 @@ namespace ShopCayCanh.Controllers
             return View("category", catid);
         }
 
-
         public ActionResult detail( String slug)
         {
             var list = db.Products.Where(m => m.status == 1 && m.slug == slug).First();
             return View(list);
         }
 
-
         public ActionResult cungloai(int catid)
         {
             var list = db.Products.Where(m => m.catid == catid && m.status == 1);
             return View("_cungloai_detail", list.ToList().Take(6));
         }
-
 
         public ActionResult subcategory(int catid,string slug, int? page)
         {
@@ -87,7 +79,6 @@ namespace ShopCayCanh.Controllers
             ViewBag.slug = slug;
             return View("~/Views/Sanpham/_Subcategory.cshtml", list.ToPagedList(pageNumber, pageSize));
         }
-
 
         public ActionResult SearchProduct(string keyw, int? page) {
             @ViewBag.keyw = keyw;

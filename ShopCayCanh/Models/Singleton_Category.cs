@@ -25,7 +25,6 @@ namespace ShopCayCanh.Models
             }          
         }
 
-
         private Singleton_Category() {
             Init();
         }

@@ -30,7 +30,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View();
         }
 
-
         public ActionResult CallSessionForLayout()
         {
             ViewBag.adminName = Session["Admin_user"];
@@ -38,7 +37,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             ViewBag.adminFull = Session["Admin_fullname"];
             return View("_userNav");
         }
-
 
         [CustomAuthorizeAttribute(RoleID = "ACCOUNTANT")]
         public ActionResult statistics()
@@ -48,16 +46,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             string shortDate = dateNow.ToString("yyyy-MM-dd");
             var Order = db.Orders;
             ViewBag.OrderToday = 0;
-
-            //foreach (var item in Order)
-            //{
-            //    DateTime shortItem = Convert.ToDateTime(item.exportdate);
-            //    string shortItem1 = shortItem.ToString("yyyy-MM-dd");
-            //    if (shortItem1 == shortDate)
-            //    {
-            //        ViewBag.OrderToday += 1;
-            //    }
-            //}
 
             IIterator<Morder> iterator = new OrderIterator(Order.ToList());
             var item = iterator.First();
@@ -74,34 +62,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             //order weed
             ViewBag.OrderWeek = 0;
-
-            //foreach (var item in Order)
-            //{
-            //    DateTime shortItem = Convert.ToDateTime(item.exportdate);
-            //    string shortItem1 = shortItem.ToString("yyyy-MM-dd");
-            //    int d = (int)dateNow.Day;
-            //    int m = (int)dateNow.Month;
-            //    int y = (int)dateNow.Year;
-            //    for (int i = 0; i < 7; i++)
-            //    {
-            //        int day = d - i;
-            //        if (day <= 0)
-            //        {
-            //            --m;
-            //        }
-            //        if (m <= 0)
-            //        {
-            //            --y;
-            //        }
-            //        string shortWeek = "" + y + "-0" + m + "-0" + day + "";
-            //        if (shortItem1 == shortWeek)
-            //        {
-            //            ViewBag.OrderWeek += 1;
-            //        }
-
-            //    }
-
-            //}
 
             iterator = new OrderIterator(Order.ToList());
             item = iterator.First();

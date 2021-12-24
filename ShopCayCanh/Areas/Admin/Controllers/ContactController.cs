@@ -42,7 +42,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View(mcontact);
         }
-
   
         public ActionResult Status(int id)
         {
@@ -61,7 +60,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         //trash
         public ActionResult trash()
         {
@@ -70,7 +68,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return View("Trash", list);
         }
-
 
         public ActionResult Deltrash(int id)
         {
@@ -89,7 +86,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Retrash(int id)
         {
             Mcontact mcontact = Singleton_Contact.GetInstance.Find(id);
@@ -106,7 +102,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
 
             return RedirectToAction("trash");
         }
-
 
         public ActionResult deleteTrash(int id)
         {

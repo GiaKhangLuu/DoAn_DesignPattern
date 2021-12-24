@@ -10,11 +10,9 @@ namespace ShopCayCanh.Models
     public partial class Mmenu
     {
         public int ID { get; set; }
-
       
         [StringLength(255)]
         public string name { get; set; }
-
       
         [StringLength(255)]
         public string type { get; set; }
@@ -27,8 +25,7 @@ namespace ShopCayCanh.Models
         public int parentid { get; set; }
 
         public int orders { get; set; }
-
-      
+     
         [StringLength(255)]
         public string position { get; set; }
 

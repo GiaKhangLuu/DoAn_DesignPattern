@@ -12,19 +12,15 @@ namespace ShopCayCanh.Models
     {
         public int ID { get; set; }
 
-      
         [StringLength(255)]
         public string name { get; set; }
-
-      
+     
         [StringLength(255)]
         public string url { get; set; }
-
-      
+ 
         [StringLength(100)]
         public string position { get; set; }
-
-      
+ 
         [StringLength(100)]
         public string img { get; set; }
 

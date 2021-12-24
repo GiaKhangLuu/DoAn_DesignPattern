@@ -13,7 +13,6 @@ namespace ShopCayCanh.Models
 
         public int parentId { get; set; }
 
-
         [StringLength(255)]
         public string accessName { get; set; }
 

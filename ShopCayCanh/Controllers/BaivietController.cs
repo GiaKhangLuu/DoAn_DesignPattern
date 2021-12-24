@@ -24,7 +24,6 @@ namespace ShopCayCanh.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-
         [ValidateInput(false)]
         public ActionResult topic_category( String slug)
         {
@@ -32,13 +31,11 @@ namespace ShopCayCanh.Controllers
             return View("_post_category",catid);
         }
 
-
         public ActionResult _post_off_category(int catid)
         {
             var list = db.posts.Where(m => m.status == 1 && m.topid == catid).ToList();
             return View("_post_off_category", list);
         }
-
 
         [ValidateInput(false)]
         public ActionResult topiccategory()

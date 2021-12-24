@@ -17,8 +17,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
     public class ProductsController : BaseController
     {
         private ShopCayCanhDbContext db = new ShopCayCanhDbContext();
-
-       
+   
         // GET: Admin/Products
         public ActionResult Index()
         {
@@ -27,7 +26,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/Products/Create
         public ActionResult Create()
         {
@@ -35,8 +33,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID>2).ToList();
             return View();
         }
-
-        
+       
         // POST: Admin/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -123,7 +120,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mproduct);
         }
 
-
         // GET: Admin/Products/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -143,7 +139,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID > 2).ToList();
             return View(mproduct);
         }
-
 
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -207,7 +202,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mproduct);
         }
 
-
         // GET: Admin/Products/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -223,7 +217,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mproduct);
         }
 
-
         public ActionResult Status(int id)
         {
             Mproduct mproduct = db.Products.Find(id);
@@ -236,13 +229,11 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         public ActionResult trash()
         {
             var list = db.Products.Where(m => m.status == 0).ToList();
             return View("Trash", list);
         }
-
 
         public ActionResult Deltrash(int id)
         {
@@ -256,7 +247,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Retrash(int id)
         {
             Mproduct mproduct = db.Products.Find(id);
@@ -269,7 +259,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("trash");
         }
 
-
         public ActionResult deleteTrash(int id)
         {
             Mproduct mproduct = db.Products.Find(id);
@@ -278,7 +267,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             Message.set_flash("Đã xóa vĩnh viễn 1 sản phẩm", "success");
             return RedirectToAction("trash");
         }
-
 
         // GET: Admin/Products/Duplicate/5
         public ActionResult Duplicate(int? id)
@@ -299,7 +287,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             ViewBag.listCate = list_cat.Where(m => m.status != 0 && m.ID > 2).ToList();
             return View(mproduct);
         }
-
 
         // POST: Admin/Products/Duplicate/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

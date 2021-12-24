@@ -21,23 +21,22 @@ namespace ShopCayCanh.Models
         [Column(TypeName = "smalldatetime")]
         public DateTime? exportdate { get; set; }
 
-      
         [StringLength(255)]
         public string deliveryaddress { get; set; }
-
       
         [StringLength(100)]
         public string deliveryname { get; set; }
-
-      
+     
         [StringLength(255)]
         public string deliveryphone { get; set; }
-
       
         [StringLength(255)]
         public string deliveryemail { get; set; }
+
         public string deliveryPaymentMethod { get; set; }
+
         public int StatusPayment { get; set; }
+
         [Column(TypeName = "smalldatetime")]
         public DateTime updated_at { get; set; }
 

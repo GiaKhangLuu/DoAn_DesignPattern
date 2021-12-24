@@ -23,7 +23,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
+        // GET: Admin/Detail
         public ActionResult Detail(int? id)
         {
             if (id == null)
@@ -34,7 +34,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             var lisst = db.Orderdetails.Where(m => m.orderid == id).ToList();
             return View("Orderdetail", lisst);
         }
-
 
         //status
         public ActionResult Status(int id)
@@ -49,14 +48,12 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
         //trash
         public ActionResult trash()
         {
             var list = db.Orders.Where(m => m.status == 0).ToList();
             return View("Trash", list);
         }
-
 
         public ActionResult Deltrash(int id)
         {
@@ -69,7 +66,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             Message.set_flash("Xóa thành công", "success");
             return RedirectToAction("Index");
         }
-
 
         public ActionResult Retrash(int id)
         {

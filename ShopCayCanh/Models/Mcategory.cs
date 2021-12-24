@@ -11,11 +11,9 @@ namespace ShopCayCanh.Models
     public partial class Mcategory : IPrototype
     {
         public int ID { get; set; }
-
       
         [StringLength(255)]
         public string name { get; set; }
-
       
         [StringLength(255)]
         public string slug { get; set; }

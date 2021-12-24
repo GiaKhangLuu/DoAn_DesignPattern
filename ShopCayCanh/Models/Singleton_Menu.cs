@@ -53,6 +53,7 @@ namespace ShopCayCanh.Models
             context.SaveChanges();
             Refresh();
         }
+
         public void Remove(Mmenu mmenu)
         {
             context.Menus.Remove(mmenu);

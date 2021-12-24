@@ -9,6 +9,7 @@ namespace ShopCayCanh.Models
     public class Cart_item
     {
         public Mproduct product { get; set; }
+
         public int quantity { get; set; }
 
         public int countCart { get; set; }
@@ -18,6 +19,7 @@ namespace ShopCayCanh.Models
         public long priceTotal { get; set; }
 
         public long priceSaleee { get; set; }
+
         public bool f { get; set; }
     }
 }

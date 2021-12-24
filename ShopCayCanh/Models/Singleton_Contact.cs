@@ -62,7 +62,6 @@ namespace ShopCayCanh.Models
             Refresh();
         }
 
-
         public void Refresh()
         {
             list_contact.Clear();          

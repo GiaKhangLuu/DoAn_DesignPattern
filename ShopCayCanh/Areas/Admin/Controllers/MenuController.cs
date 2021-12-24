@@ -32,7 +32,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
+        // POST: Admin/Menu
         [HttpPost]
         public ActionResult Index(FormCollection data)
         {
@@ -190,7 +190,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(list);
         }
 
-
         // GET: Admin/Menu/Details/5
         public ActionResult Details(int? id)
         {
@@ -205,7 +204,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             }
             return View(mmenu);
         }
-
 
         // GET: Admin/Menu/Edit/5
         public ActionResult Edit(int? id)
@@ -227,6 +225,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mmenu);
         }
 
+        // POST: Admin/Menu/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,name,type,link,tableid,parentid,orders,position,created_at,created_by,updated_at,updated_by,status")] Mmenu mmenu)

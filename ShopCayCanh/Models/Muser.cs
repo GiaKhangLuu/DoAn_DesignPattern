@@ -14,20 +14,16 @@ namespace ShopCayCanh.Models
     public partial class Muser : IPrototype, IUser
     {
         public int ID { get; set; }
-
-        
+       
         [StringLength(255)]
         public string fullname { get; set; }
-
-        
+      
         [StringLength(225)]
         public string username { get; set; }
-
         
         [StringLength(64)]
         public string password { get; set; }
-
-        
+      
         [StringLength(255)]
         public string email { get; set; }
 
@@ -49,7 +45,6 @@ namespace ShopCayCanh.Models
 
         [Column(TypeName = "smalldatetime")]
         public DateTime updated_at { get; set; }
-
         public int updated_by { get; set; }
 
         public int status { get; set; }

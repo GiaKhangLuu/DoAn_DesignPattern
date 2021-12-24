@@ -60,6 +60,7 @@ namespace ShopCayCanh.Controllers
 
             return View("_LoaiSp", list);
         }
+
         public ActionResult SubListcategory(int parentid)
         {
             var list = Singleton_Category.GetInstance.list_cat;
@@ -79,6 +80,7 @@ namespace ShopCayCanh.Controllers
             }
 
         }
+
         public ActionResult slider()
         {
             var list = Singleton_Slider.GetInstance.list_slider;

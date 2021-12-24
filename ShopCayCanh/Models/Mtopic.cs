@@ -11,11 +11,9 @@ namespace ShopCayCanh.Models
     public partial class Mtopic : IPrototype
     {
         public int ID { get; set; }
-
-        
+   
         [StringLength(255)]
         public string name { get; set; }
-
         
         [StringLength(255)]
         public string slug { get; set; }
@@ -26,7 +24,6 @@ namespace ShopCayCanh.Models
 
         [StringLength(150)]
         public string metakey { get; set; }
-
         public string metadesc { get; set; }
 
         [Column(TypeName = "smalldatetime")]
@@ -36,11 +33,9 @@ namespace ShopCayCanh.Models
 
         [Column(TypeName = "smalldatetime")]
         public DateTime updated_at { get; set; }
-
         public int updated_by { get; set; }
 
         public int status { get; set; }
-
         public IPrototype Clone()
         {
             Mtopic mtopic = new Mtopic();

@@ -14,12 +14,14 @@ namespace ShopCayCanh
             }
             return true;
         }
+
         public static void set_flash(String msg, String msg_css) {
             MessageModel ms = new MessageModel();
             ms.msg = msg;
             ms.msg_css = msg_css;
             System.Web.HttpContext.Current.Session["Message"]=ms;
         }
+
          public static MessageModel get_flash() {
             MessageModel ms = (MessageModel)System.Web.HttpContext.Current.Session["Message"];
             System.Web.HttpContext.Current.Session["Message"] = "";

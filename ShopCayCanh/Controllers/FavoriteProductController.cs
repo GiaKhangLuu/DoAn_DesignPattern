@@ -10,9 +10,9 @@ namespace ShopCayCanh.Controllers
     public class FavoriteProductController : Controller
     {
         private const string SessionFavorite = "favorite";
+
         // GET: Cart
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
-
 
         // GET: FavoriteProduct
         public ActionResult favoriteList()
@@ -25,7 +25,6 @@ namespace ShopCayCanh.Controllers
             }
             return View("_listFavorite", list);
         }
-
 
         public JsonResult Additem(long productID)
         {
