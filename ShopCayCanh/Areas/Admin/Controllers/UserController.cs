@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ShopCayCanh.Common;
 using ShopCayCanh.Models;
+using ShopCayCanh.Library;
 
 namespace ShopCayCanh.Areas.Admin.Controllers
 {
@@ -52,13 +53,14 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         public ActionResult Create( Muser muser, FormCollection data)
         {
             if (ModelState.IsValid)
-            {
+            {               
                 string password1 = data["password1"];
                 string password2 = data["password2"];
-                string username = muser.username;
-                var Luser = db.users.Where(m => m.status == 1 && m.username == username);
-                if (password1!=password2) {ViewBag.error = "PassWord không khớp";}
-                if (Luser.Count()>0) { ViewBag.error1 = "Tên Đăng nhâp đã tồn tại";}
+                if (password1 != password2) 
+                { 
+                    ViewBag.error = "PassWord không khớp";
+                    Message.set_flash("Password không khớp", "danger");
+                }
                 else
                 {
                     string pass = Mystring.ToMD5(password1);
@@ -68,11 +70,21 @@ namespace ShopCayCanh.Areas.Admin.Controllers
                     muser.updated_at = DateTime.Now;
                     muser.created_by = int.Parse(Session["Admin_id"].ToString());
                     muser.updated_by = int.Parse(Session["Admin_id"].ToString());
-                    db.users.Add(muser);
-                    db.SaveChanges();
-                    Message.set_flash("Tạo user  thành công", "success");
-                    return RedirectToAction("Index");
-                }
+
+                    // Initialize PROXY object
+                    var proxy_user = new ProxyUser(muser);
+                    var status_code = proxy_user.Register(db);
+
+                    if (status_code == UserStatusCode.REGISTER_SUCCESSFULLY)
+                    {
+                        Message.set_flash(status_code, "success");
+                    }
+                    else
+                    {
+                        Message.set_flash(status_code, "danger");
+                    }
+                }               
+                return RedirectToAction("Index");                
             }
             return View(muser);
         }

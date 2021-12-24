@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace ShopCayCanh.Library
 {
     // ==============================================================
-    //                          ENUM DEFINITION
+    //                     CONSTANT MESSAGE DEFINITION
     // ==============================================================
     public class UserStatusCode
     {
@@ -92,7 +92,7 @@ namespace ShopCayCanh.Library
         private bool Is_Account_Not_Exist(string account, ShopCayCanhDbContext context)
         {
             
-            var Luser = context.users.Where(m => m.status == 1 && m.username == account && m.access == 1);
+            var Luser = context.users.Where(m => m.status == 1 && m.username == account);
             if (Luser.Count() > 0)
             {
                 return false;
