@@ -149,7 +149,7 @@ namespace ShopCayCanh
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Site", action = "Home", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Go_To_Site", id = UrlParameter.Optional }
             );
         }
     }
