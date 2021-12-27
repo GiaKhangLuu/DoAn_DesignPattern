@@ -12,43 +12,13 @@ using ShopCayCanh.Library;
 
 namespace ShopCayCanh.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : AuthTemplateMethodController
     {
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
 
         public void login(FormCollection fc)
         {
-            string Username = fc["uname"];
-            string Pass = Mystring.ToMD5(fc["psw"]);
-            string PassNoMD5 = fc["psw"];
-            var user_account = db.users.Where(m => (m.username == Username) && (m.access == 1));
-
-            if (user_account.Count() == 0)
-            {
-                Message.set_flash("Tên đăng nhập không tồn tại", "error");
-            }
-            else
-            {
-                var pass_account = db.users.Where(m => m.status == 1 && (m.password == Pass ) && (m.access == 1));
-
-                if (pass_account.Count() == 0)
-                {
-                    Message.set_flash("Mật khẩu không đúng", "error");
-                }
-
-                else
-                {
-                    var user = user_account.First();
-                    Session["id"] = user.ID;
-                    Session["user"] = user.username;
-                    ViewBag.name = Session["user"];
-                    if (!Response.IsRequestBeingRedirected)
-                        Message.set_flash("Đăng nhập thành công", "success");
-                        Response.Redirect("~/");
-                }
-            }
-            if (!Response.IsRequestBeingRedirected)
-                Response.Redirect("~/");
+            Login(fc);
         }
 
         public void logout()
@@ -189,6 +159,54 @@ namespace ShopCayCanh.Controllers
                 ViewBag.mess = item.email;
                 return View("sendMailFinish");
             }
+        }
+
+        protected override Muser CheckLogin(FormCollection fc)
+        {
+            string Username = fc["uname"];
+            string Pass = Mystring.ToMD5(fc["psw"]);
+            string PassNoMD5 = fc["psw"];
+
+            var user_account = db.users.FirstOrDefault(m => (m.username == Username) && (m.access == 1));
+
+            if (user_account == null)
+            {
+                Message.set_flash("Tên đăng nhập không tồn tại", "error");
+            } 
+            else
+            {
+                if (user_account.password.Equals(Pass) && 
+                    user_account.status == 1 &&
+                    user_account.access == 1)
+                {
+                    return user_account;
+                }
+                Message.set_flash("Mật khẩu không đúng", "error");
+            }
+            return null;
+        }
+
+        protected override void SaveSession(Muser muser)
+        {
+            if(muser != null)
+            {
+                Session["id"] = muser.ID;
+                Session["user"] = muser.username;
+                ViewBag.name = Session["user"];
+                if (!Response.IsRequestBeingRedirected)
+                {
+                    Message.set_flash("Đăng nhập thành công", "success");
+                }                 
+                Response.Redirect("~/");
+                return;
+            }
+            if (!Response.IsRequestBeingRedirected)
+                Response.Redirect("~/");
+        }
+
+        protected override ActionResult GoToSite()
+        {
+            return null;
         }
     }
 }
