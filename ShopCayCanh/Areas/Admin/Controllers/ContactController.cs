@@ -130,7 +130,6 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View(mcontact);
         }
 
-
         // POST: Admin/Products/Duplicate/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

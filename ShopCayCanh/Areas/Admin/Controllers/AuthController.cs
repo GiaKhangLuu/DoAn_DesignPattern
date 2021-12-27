@@ -1,4 +1,5 @@
 ﻿using ShopCayCanh.Common;
+using ShopCayCanh.Controllers;
 using ShopCayCanh.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,11 @@ using System.Web.Mvc;
 
 namespace ShopCayCanh.Areas.Admin.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : AuthTemplateMethodController
     {
         // GET: Admin/Auth
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
+
         public ActionResult login()
         {
             return View("_login");
@@ -22,48 +24,7 @@ namespace ShopCayCanh.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult login(FormCollection fc)
         {
-            String Username = fc["username"];
-            string Pass = Mystring.ToMD5(fc["password"]);
-            var user_account = db.users.Where(m => m.access != 1 && m.status == 1 && (m.username == Username));
-            var userC = db.users.Where(m => m.username == Username && m.access == 1);
-            if (userC.Count() != 0)
-            {
-                ViewBag.error = "Bạn không có quyền đăng nhập";
-            }
-            else {
-            if (user_account.Count() == 0)
-            {
-                ViewBag.error = "Tên Đăng Nhập Không Đúng";
-            }
-            else
-            {
-                var pass_account = db.users.Where(m => m.access != 1 && m.status == 1 && m.password == Pass );
-                if (pass_account.Count() == 0)
-                {
-                    ViewBag.error = "Mật Khẩu Không Đúng";
-                }
-
-                else
-                {
-                    var user = user_account.First();
-                    role role = db.roles.Where(m=>m.parentId == user.access).First();                   
-                    var userSession = new Userlogin();
-                    userSession.UserName = user.username;
-                    userSession.UserID = user.ID;
-                    userSession.GroupID = role.GropID;
-                    userSession.AccessName = role.accessName;
-                    Session.Add(CommonConstants.USER_SESSION, userSession);
-                    var i = Session["SESSION_CREDENTIALS"];
-                    Session["Admin_id"] = user.ID;
-                    Session["Admin_user"] = user.username;
-                    Session["Admin_fullname"] = user.fullname;
-                    Response.Redirect("~/Admin");
-                }
-            }
-            }
-            ViewBag.sess = Session["Admin_id"];
-            return View("_login");
-            
+            return Login(fc);        
         }
 
         public ActionResult logout()
@@ -113,5 +74,60 @@ namespace ShopCayCanh.Areas.Admin.Controllers
             return View("_information", muser);
         }
 
+        protected override Muser CheckLogin(FormCollection fc)
+        {
+            String Username = fc["username"];
+            string Pass = Mystring.ToMD5(fc["password"]);
+            var user_account = db.users.FirstOrDefault(m => m.access != 1 && 
+                                                       m.status == 1 && 
+                                                       m.username == Username);
+            var userC = db.users.FirstOrDefault(m => m.username == Username && m.access == 1);
+
+            if (userC != null)
+            {
+                ViewBag.error = "Bạn không có quyền đăng nhập";
+                return null;
+            }
+            if (user_account == null)
+            {
+                ViewBag.error = "Tên Đăng Nhập Không Đúng";
+            }
+            else
+            {
+                if (user_account.password.Equals(Pass) &&
+                    user_account.status == 1 &&
+                    user_account.access != 1)
+                {
+                    return user_account;
+                }
+                ViewBag.error = "Mật Khẩu Không Đúng";
+            }
+            return null;
+        }
+
+        protected override void SaveSession(Muser muser)
+        {
+            if(muser != null)
+            {
+                role role = db.roles.Where(m => m.parentId == muser.access).First();
+                var userSession = new Userlogin();
+                userSession.UserName = muser.username;
+                userSession.UserID = muser.ID;
+                userSession.GroupID = role.GropID;
+                userSession.AccessName = role.accessName;
+                Session.Add(CommonConstants.USER_SESSION, userSession);
+                var i = Session["SESSION_CREDENTIALS"];
+                Session["Admin_id"] = muser.ID;
+                Session["Admin_user"] = muser.username;
+                Session["Admin_fullname"] = muser.fullname;
+                Response.Redirect("~/Admin");
+            }
+        }
+
+        protected override ActionResult GoToSite()
+        {
+            ViewBag.sess = Session["Admin_id"];
+            return View("_login");
+        }
     }
 }

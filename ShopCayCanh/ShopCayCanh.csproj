@@ -127,6 +127,7 @@
     <Compile Include="Common\CustomAuthorizeAttribute.cs" />
     <Compile Include="Common\Userlogin.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\AuthTemplateMethodController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -310,6 +311,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Views\AuthTemplateMethod\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
