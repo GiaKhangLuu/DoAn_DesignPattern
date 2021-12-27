@@ -8,6 +8,11 @@ using ShopCayCanh.Models;
 
 namespace ShopCayCanh.Library
 {
+    /* 
+    ===================================================================================
+                            STRATEGY PATTERN DEFINITION
+    ===================================================================================
+    */
     interface ISiteStrategy
     {
         ActionResult Go_To_Site(string slug, int id);

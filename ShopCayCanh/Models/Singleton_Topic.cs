@@ -6,9 +6,13 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
+    /* 
+    ===================================================================================
+                            SINGLETON PATTERN DEFINITION
+    ===================================================================================
+    */
     public sealed class Singleton_Topic
-    {
-        
+    {      
         public List<Mtopic> list_topic { get; } = new List<Mtopic>();
         private ShopCayCanhDbContext context = null;
         private static Singleton_Topic instance;

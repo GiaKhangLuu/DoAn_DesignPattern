@@ -6,6 +6,11 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
+    /* 
+    ===================================================================================
+                            SINGLETON PATTERN DEFINITION
+    ===================================================================================
+    */
     public sealed class Singleton_Contact
     {
         

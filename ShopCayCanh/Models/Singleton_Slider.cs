@@ -5,9 +5,13 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
+    /* 
+    ===================================================================================
+                            SINGLETON PATTERN DEFINITION
+    ===================================================================================
+    */
     public sealed class Singleton_Slider
-    {
-        
+    {       
         public List<Mslider> list_slider { get; } = new List<Mslider>();
         private ShopCayCanhDbContext context = null;
         private static Singleton_Slider instance;

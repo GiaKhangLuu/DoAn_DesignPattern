@@ -10,7 +10,7 @@ namespace ShopCayCanh.Library
 
     /* 
     ===================================================================================
-                                 INTERFACE ITERATOR DEFINITIONS
+                                 ITERATOR PATTERN DEFINITION
     ===================================================================================
     */
     internal interface IIterator<T>

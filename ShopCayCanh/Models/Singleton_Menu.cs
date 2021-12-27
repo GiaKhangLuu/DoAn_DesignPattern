@@ -5,9 +5,13 @@ using System.Web;
 
 namespace ShopCayCanh.Models
 {
+    /* 
+    ===================================================================================
+                            SINGLETON PATTERN DEFINITION
+    ===================================================================================
+    */
     public sealed class Singleton_Menu
     {
-        
         public List<Mmenu> list_menu { get; } = new List<Mmenu>();
         private ShopCayCanhDbContext context = null;
         private static Singleton_Menu instance;

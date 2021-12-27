@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace ShopCayCanh.Library
 {
+    /* 
+    ===================================================================================
+                                 PROTOTYPE PATTERN DEFINITION
+    ===================================================================================
+    */
     public interface IPrototype
     {
         IPrototype Clone();
