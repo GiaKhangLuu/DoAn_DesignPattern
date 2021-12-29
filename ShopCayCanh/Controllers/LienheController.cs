@@ -9,8 +9,6 @@ namespace ShopCayCanh.Controllers
 {
     public class LienheController : Controller
     {
-        //ShopCayCanhDbContext db = new ShopCayCanhDbContext();
-
         // GET: Lienhe
         public ActionResult Index()
         {

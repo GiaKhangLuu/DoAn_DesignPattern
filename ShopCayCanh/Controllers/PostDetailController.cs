@@ -12,7 +12,6 @@ namespace ShopCayCanh.Controllers
     {
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
 
-
         public ActionResult Go_To_Site(string slug, int id)
         {
             var detail = db.posts.Where(m => m.status == 1 && m.slug == slug && m.ID == id).First();
