@@ -4,13 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopCayCanh.Models;
-using ShopCayCanh.Library;
 
-namespace ShopCayCanh.Controllers
+namespace ShopCayCanh.Library
 {
-    public class HomeController : Controller, ISiteStrategy
+    public class HomeSite : AbstractSite
     {
-        public ActionResult Go_To_Site(string slug = "", int id = 0)
+        public override ActionResult DirectTo()
         {
             var list_cat = Singleton_Category.GetInstance.list_cat;
             var list = list_cat.Where(m => m.status == 1).
