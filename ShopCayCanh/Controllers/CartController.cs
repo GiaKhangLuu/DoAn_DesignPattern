@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopCayCanh.Library;
-//using System.Web.Script.Serialization;
+using ShopCayCanh.Library.Strategy;
 
 namespace ShopCayCanh.Controllers
 {
@@ -14,6 +14,8 @@ namespace ShopCayCanh.Controllers
         // khởi tạo session:
         private const string SessionCart = "SessionCart";
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
+        ICartStrategy cart_strategy;
+        
 
         // GET: Cart
         public ActionResult Index()
@@ -42,7 +44,6 @@ namespace ShopCayCanh.Controllers
                     if (item.product.pricesale > 0)
                     {
                         int temp = (((int)item.product.price) - ((int)item.product.price / 100 * (int)item.product.pricesale)) * ((int)item.quantity);
-
                         priceTotol += temp;
                     }
                     else
@@ -93,146 +94,39 @@ namespace ShopCayCanh.Controllers
         }
 
         public JsonResult Additem(long productID, int quantity)
-        {
-            var item = new Cart_item();
+        {         
             Mproduct product = db.Products.Find(productID);
             var cart = Session[SessionCart];
+
+            // cart is not null
             if (cart != null)
             {
                 var list = (List<Cart_item>)cart;
+                // item has been added to cart
                 if (list.Exists(m => m.product.ID == productID))
                 {
-                    int quantity1 = 0;
-                    bool bad = false;
-
-                    IIterator<Cart_item> iterator = new CartItemIterator(list);
-                    var item1 = iterator.First();
-                    while (!iterator.IsDone)
-                    {
-                        if (item1.product.ID == productID)
-                        {
-                            if ((item1.quantity + quantity) > (item1.product.number - item1.product.sold))
-                            {
-                                bad = true;
-
-                            }
-                            else
-                            {
-                                item1.quantity += quantity;
-                                quantity1 = item1.quantity;
-                            }
-
-                        }
-
-                        item1 = iterator.Next();
-                    }
-
-                    int priceTotol = 0;
-
-                    item1 = iterator.First();
-                    while(!iterator.IsDone)
-                    {
-                        if (item1.product.pricesale > 0)
-                        {
-                            int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
-
-                            priceTotol += temp;
-                        }
-                        else
-                        {
-                            int temp = (int)item1.product.price * (int)item1.quantity;
-                            priceTotol += temp;
-                        }
-
-                        item1 = iterator.Next();
-                    }
-
-                    return Json(new
-                    {  
-                        ProductPrice = ((int)product.price) - (((int)product.price / 100) * ((int)product.pricesale)),
-                        bad = bad,
-                        price = product.price,
-                        priceSale = product.pricesale,
-                        quantity = quantity1,
-                        priceTotol = priceTotol,
-                        productID = productID,
-                        meThod = "updateQuantity"
-                    }, JsonRequestBehavior.AllowGet);
-
+                    cart_strategy = new Duplicate_Item_In_Cart_Strategy();             
                 }
+                // item has not been added to cart
                 else
                 {
-                    item.meThod = "cartExist";
-                    item.f = false;
-                    if (quantity > (product.number - product.sold))
-                    {
-                        item.f = true;
-                        item.quantity = 0;
-                    }
-                    else
-                    {
-                        item.quantity = quantity;
-                        list.Add(item);
-                        item.product = product;
-                        item.countCart = list.Count();
-                        item.meThod = "cartExist";
-                        int priceTotol = 0;
-                        IIterator<Cart_item> iterator = new CartItemIterator(list);
-                        var item1 = iterator.First();
-                        while(!iterator.IsDone)
-                        {
-                            if (item1.product.pricesale > 0)
-                            {
-                                int temp = (((int)item1.product.price) - ((int)item1.product.price / 100 * (int)item1.product.pricesale)) * ((int)item1.quantity);
-                                priceTotol += temp;
-
-                            }
-                            else
-                            {
-                                int temp = (int)item1.product.price * (int)item1.quantity;
-                                priceTotol += temp;
-                            }
-
-                            item1 = iterator.Next();
-                        }
-
-                        item.priceTotal = priceTotol;
-                        item.priceSaleee = (int)product.price - (int)product.price / 100 * (int)product.pricesale;
-                    }
-                        return Json(item, JsonRequestBehavior.AllowGet);
-                    
+                    cart_strategy = new Not_Duplicate_Item_In_Cart_Strategy();
                 }
+                var item = cart_strategy.AddToCart(productID, quantity, product, list);
+                return Json(item, JsonRequestBehavior.AllowGet);
             }
+            // cart is null
             else
             {
-                item.product = product;
-                item.meThod = "cartEmpty";
-                item.countCart = 1;
-          
-             
-                item.f = false;
-                if (quantity > (product.number - product.sold))
+                var list = new List<Cart_item>();
+                cart_strategy = new NullCartStrategy();
+                var item = (Cart_item) cart_strategy.AddToCart(productID, quantity, product, list);
+                if(!item.f && item.quantity != 0)
                 {
-                    item.f = true;
-                    item.quantity = 0;
-                }
-                else {
-                    item.quantity = quantity;
-                    var list = new List<Cart_item>();
-                    list.Add(item);
                     Session[SessionCart] = list;
-                    if (item.product.pricesale > 0)
-                    {
-                        item.priceTotal = (((int)item.product.price) - ((int)item.product.price / 100 * (int)item.product.pricesale)) * ((int)item.quantity);
-                    }
-                    else
-                    {
-                        item.priceTotal = (int)product.price;
-                    }
-                    item.priceTotal = (((int)item.product.price) - ((int)item.product.price / 100 * (int)item.product.pricesale)) * ((int)item.quantity);
-                }  
-            }
-            return Json(item, JsonRequestBehavior.AllowGet);
+                }
+                return Json(item, JsonRequestBehavior.AllowGet);
+            }                  
         }
     }
 }
