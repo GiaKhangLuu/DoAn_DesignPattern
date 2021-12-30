@@ -34,7 +34,7 @@ namespace ShopCayCanh.Controllers
                 if (rowlink.Count() > 0)
                 {
                     var link = rowlink.First();
-                     if (link.type == "ProductDetail" && link.tableId == 1)
+                    if (link.type == "ProductDetail" && link.tableId == 1)
                     {
                         site = site_factory.CreateSite(SiteName.ProductDetail, slug, id);     
                     }

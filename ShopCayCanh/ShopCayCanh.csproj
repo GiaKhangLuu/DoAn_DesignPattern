@@ -154,6 +154,10 @@
     <Compile Include="Library\Site\PostDetailSite.cs" />
     <Compile Include="Library\Site\ProductDetailSite.cs" />
     <Compile Include="Library\Site\TopicSite.cs" />
+    <Compile Include="Library\Strategy\ICartStrategy.cs" />
+    <Compile Include="Library\Strategy\Duplicate_Item_In_Cart_Strategy.cs" />
+    <Compile Include="Library\Strategy\Not_Duplicate_Item_In_Cart_Strategy.cs" />
+    <Compile Include="Library\Strategy\NullCartStrategy.cs" />
     <Compile Include="Library\Util.cs" />
     <Compile Include="Models\Cart_item.cs" />
     <Compile Include="Models\link.cs" />
