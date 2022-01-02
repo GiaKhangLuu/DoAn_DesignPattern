@@ -23,17 +23,20 @@ namespace ShopCayCanh.Library
         public static readonly string EDIT_SUCCESSFULLY = "Cập nhật thành công";
         public static readonly string CHANGE_PASSWORD_SUCCESSFULLY = "Đổi mật khẩu thành công";
         public static readonly string WRONG_PASSWORD = "Mật khẩu không đúng";
-        public static readonly string PASSWORD_AND_CF_PASSWORD_ARE_NOT_SIMILAR = "2 Mật khẩu không khớp";
+        public static readonly string PASSWORD_AND_CF_PASSWORD_ARE_NOT_SIMILAR = "2 mật khẩu không khớp";
+        public static readonly string RESET_SUCCESSFULLY = "Reset mật Khẩu thành công";
+        public static readonly string TRY_AGAIN = "Vui lòng thử lại";
     }
 
     // ==============================================================
     //                     PROXY PATTERN DEFINITION
     // ==============================================================
-    internal interface IUser
+    public interface IUser
     {
         string Register(ShopCayCanhDbContext context);
         string Edit(ShopCayCanhDbContext context);
         Task<string> ChangePassword(ShopCayCanhDbContext context, string oldPass, string rePass, string newPass);
+        Task<string> ResetObliviousPassword(ShopCayCanhDbContext context, string rePass, string newPass);
     }
 
     // ==============================================================
@@ -166,6 +169,18 @@ namespace ShopCayCanh.Library
             else
             {
                 return (await _user.ChangePassword(context, oldPass, rePass, newPass));
+            }
+        }
+
+        public async Task<string> ResetObliviousPassword(ShopCayCanhDbContext context, string rePass, string newPass)
+        {
+            if (rePass != newPass)
+            {
+                return UserStatusCode.PASSWORD_AND_CF_PASSWORD_ARE_NOT_SIMILAR;
+            }
+            else
+            {
+                return (await _user.ResetObliviousPassword(context, rePass, newPass));
             }
         }
     }

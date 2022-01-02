@@ -8,8 +8,8 @@ namespace ShopCayCanh.Library
     public class Util
     {
         // email dung de gui di
-        public static string email ="Tran van bao3339@gmail.com";
+        public static string email ="waoknight@gmail.com";
         //pass email
-        public static string password = "proTran van bao77";
+        public static string password = "946GiaKhang";
     }
 }

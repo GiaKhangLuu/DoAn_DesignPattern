@@ -90,6 +90,13 @@ namespace ShopCayCanh.Models
             return UserStatusCode.CHANGE_PASSWORD_SUCCESSFULLY;
         }
 
-
+        public async Task<string> ResetObliviousPassword(ShopCayCanhDbContext context, string rePass, string newPass)
+        {
+            this.password = newPass;
+            context.users.Attach(this);
+            context.Entry(this).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return UserStatusCode.RESET_SUCCESSFULLY;
+        }
     }
 }
