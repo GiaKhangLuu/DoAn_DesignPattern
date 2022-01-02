@@ -97,7 +97,7 @@ namespace ShopCayCanh.Controllers
             var item = auth_facade.Find_Client_By_Username(username);
             if (item == null)
             {
-                ViewBag.mess = "Tên đăng nhập không đúng";
+                ViewBag.mess = "Tên đăng nhập không tồn tại";
                 return View("forgetPass");
             }
             else
