@@ -16,7 +16,6 @@ namespace ShopCayCanh.Controllers
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
         ICartStrategy cart_strategy;
         
-
         // GET: Cart
         public ActionResult Index()
         {

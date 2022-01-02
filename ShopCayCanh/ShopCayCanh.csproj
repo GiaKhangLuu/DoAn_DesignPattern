@@ -127,6 +127,11 @@
     <Compile Include="Common\CustomAuthorizeAttribute.cs" />
     <Compile Include="Common\Userlogin.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\AuthControllerFacade\AuthFacade.cs" />
+    <Compile Include="Controllers\AuthControllerFacade\SubContext.cs" />
+    <Compile Include="Controllers\AuthControllerFacade\SubMail.cs" />
+    <Compile Include="Controllers\AuthControllerFacade\SubSmtpClient.cs" />
+    <Compile Include="Controllers\AuthControllerFacade\SubUser.cs" />
     <Compile Include="Controllers\AuthTemplateMethodController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -316,8 +321,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Views\AuthTemplateMethod\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
