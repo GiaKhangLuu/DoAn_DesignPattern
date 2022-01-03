@@ -80,23 +80,23 @@
                     <div class="col-md-8">
                         <div>
                             <label for="psw"><span class=" ">Tên đầy đủ</span></label>
-                            @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
                             @Html.ValidationMessageFor(model => model.fullname, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class=" ">Tên đăng nhập</span></label>
-                            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
                             @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
                             <span class="text-cam">@ViewBag.error1</span>
                         </div>
                         <div>
                             <label for="psw"><span class=" ">Email của bạn</span></label>
-                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
                             @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class=" ">Số điện thoại</span></label>
-                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { type = "number", @class = "form-control" } })
+                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { type = "number", @class = "form-control", @disabled = "true" } })
                             @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -104,17 +104,17 @@
 
                         <div>
                             <label for="psw"><span class=" ">Giới tính</span></label>
-                            @Html.DropDownListFor(model => model.gender, gender, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.gender, gender, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class=" ">Trang Thái</span></label>
-                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-secondary ">Phân Quyền</span></label>
-                            @Html.DropDownListFor(model => model.access, listRole, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.access, listRole, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.access, "", new { @class = "text-danger" })
                         </div>
                     </div>

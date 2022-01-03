@@ -104,12 +104,12 @@
                         </div>
                         <label for="psw"><span class="text-dark ">Chọn loại sản phẩm</span></label>
                         <div>
-                            @Html.DropDownListFor(model => model.catid, listcat, new { @class = "form-control", @readonly = "true" })
+                            @Html.DropDownListFor(model => model.catid, listcat, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.catid, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
                             <label for="psw"><span class="text-dark ">Nhóm sản phẩm</span></label>
-                            @Html.DropDownListFor(model => model.Submenu, new[] { new SelectListItem() { Value = "1", Text = "Nam" }, new SelectListItem() { Value = "2", Text = "Nữ" } }, new { @class = "form-control", @readonly = "true" })
+                            @Html.DropDownListFor(model => model.Submenu, new[] { new SelectListItem() { Value = "1", Text = "Nam" }, new SelectListItem() { Value = "2", Text = "Nữ" } }, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.Submenu, "", new { @class = "text-danger" })
 
                         </div>
@@ -130,11 +130,11 @@
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Hình ảnh sản phẩm</span></label>
-                            <input type="file" class="form-control" name="img" readonly />
+                            <input type="file" class="form-control" name="img" disabled />
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Trang Thái </span></label>
-                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @readonly = "true" })
+                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
 
                         </div>

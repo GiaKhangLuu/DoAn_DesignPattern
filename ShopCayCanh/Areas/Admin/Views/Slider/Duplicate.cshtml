@@ -75,12 +75,12 @@
                     <div class="col-md-8">
                         <div>
                             <label for="psw"><b class="text-secondary ">Tên Slider</b></label>
-                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
                             @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><b class="text-secondary ">Loại Slider</b></label>
-                            @Html.DropDownListFor(model => model.position, position, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownListFor(model => model.position, position, new  { @class = "form-control", @disabled = "true" } )
                             @Html.ValidationMessageFor(model => model.position, "", new { @class = "text-danger" })
 
                         </div>
@@ -88,15 +88,15 @@
                     <div class="col-md-4">
                         <div>
                             <label for="psw"><b class="text-secondary ">Chọn vị trí hiển thị</b></label>
-                            @Html.DropDownListFor(model => model.orders, listorder, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.orders, listorder, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.orders, "", new { @class = "text-danger" })
                         </div>
                         <label for="psw"><b class="text-secondary ">Hình ảnh Slider</b></label>
-                        <input type="file" name="img" class="form-control" />
+                        <input type="file" name="img" class="form-control" disabled />
                         @Html.ValidationMessageFor(model => model.img, "", new { @class = "text-danger" })
                         <div>
                             <label for="psw"><b class="text-secondary ">Trang Thái</b></label>
-                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @disabled = "true" })
                             @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
                         </div>
                     </div>

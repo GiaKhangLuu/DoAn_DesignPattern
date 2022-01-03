@@ -35,7 +35,7 @@
                 <span>Tên:  <span class="text-cam">@Html.DisplayFor(model => model.fullname)</span></span>
                 <p class="pt-1"> Nội dung: @Html.DisplayFor(model => model.detail)</p>
                 <div class="float-right">                  
-                    @using (Html.BeginForm("Duplicate", "Contact", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("Duplicate", "Contact", FormMethod.Post, new { enctype = "multipart/form-data", @readonly = "true" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.ID)
