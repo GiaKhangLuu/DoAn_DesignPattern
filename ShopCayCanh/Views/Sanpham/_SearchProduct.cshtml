@@ -31,9 +31,9 @@
                                                     <div class="arrow-up">
                                                         <span class=" text-white pl-3">-@sale%</span>
                                                     </div>
-                                                    <a href="/@item.slug"><img class="card-img-top" src="~/public/images/@item.img" alt="Card image"></a>
+                                                    <a href="~/@item.ID/@item.slug"><img class="card-img-top" src="~/public/images/@item.img" alt="Card image"></a>
                                                 </div>
-                                                <div class="card-title text-dark pt-1"><h6><a href="~/@item.slug" class="text-danger">@item.name</a></h6></div>
+                                                <div class="card-title text-dark pt-1"><h6><a href="~/@item.ID/@item.slug" class="text-danger">@item.name</a></h6></div>
                                                 <div class="card-title text-dark">
                                                     <h6 class="font-weight-bold"><strike> @item.price.ToString("N0") VND </strike></h6>
                                                     <h6 class="font-weight-bold text-danger"> @price.ToString("N0") VND</h6>
