@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopCayCanh.Library.Strategy;
 
 namespace ShopCayCanh.Controllers
 {
     public class FavoriteProductController : Controller
     {
         private const string SessionFavorite = "favorite";
-
-        // GET: Cart
         ShopCayCanhDbContext db = new ShopCayCanhDbContext();
+        IFavoriteProduct favorite_strategy;
 
         // GET: FavoriteProduct
         public ActionResult favoriteList()
@@ -28,41 +28,35 @@ namespace ShopCayCanh.Controllers
 
         public JsonResult Additem(long productID)
         {
-            var item = new MfavoriteProduct();
-            Mproduct product = db.Products.Find(productID);
             var favorite = Session[SessionFavorite];
+
+            // favorite is not null
             if (favorite != null)
             {
                 var list = (List<MfavoriteProduct>)favorite;
+                // product existed in favorite list
                 if (list.Exists(m => m.favoriteProduct.ID == productID))
                 {
-                    return Json(new
-                    {        
-                        status = 1,
-                        meThod = "ExistProduct"
-                    }, JsonRequestBehavior.AllowGet);
+                    favorite_strategy = new Duplicate_Item_In_Fav_Strategy();
                 }
+                // product didnt exist in favorite list
                 else
                 {
-                    item.favoriteProduct = product;
-                    item.status = 2;
-                    list.Add(item);
-
-                    item.method = "favoriteExist";
-                    return Json(item, JsonRequestBehavior.AllowGet);
+                    favorite_strategy = new Not_Duplicate_Item_In_Fav_Strategy();
                 }
+                var item = favorite_strategy.AddItem(productID, list);
+                return Json(item, JsonRequestBehavior.AllowGet);
             }
+            // favorite is null
             else
             {
-                item.favoriteProduct = product;
-                item.status = 3;
-                item.method = "favoriteEmpty";
                 var list = new List<MfavoriteProduct>();
-                list.Add(item);
+                favorite_strategy = new NullFavorite();
+                var item = (MfavoriteProduct)favorite_strategy.AddItem(productID, list);
                 Session[SessionFavorite] = list;
+                return Json(item, JsonRequestBehavior.AllowGet);
 
             }
-            return Json(item, JsonRequestBehavior.AllowGet);
-        }
+        }       
     }
 }

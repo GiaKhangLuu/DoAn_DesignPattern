@@ -95,7 +95,7 @@ function addfavorite(productID) {
                     $('#alert-mess').text('Sản phẩm đã có trong Danh sách yêu thích rồi.');
                 }, 700);
             }
-            else if (data.status == 3) {
+            else {
                 setTimeout(function () {
                     alertify.success("Đã thêm Vào Danh sách Yêu Thích Thành Công");
                 }, 700);
