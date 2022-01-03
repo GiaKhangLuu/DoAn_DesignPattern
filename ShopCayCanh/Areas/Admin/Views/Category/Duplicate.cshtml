@@ -80,35 +80,35 @@
 
                         <div>
                             <label for="psw"><span class="text-secondary ">Tên Loại Sản Phẩm</span></label>
-                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-secondary ">Từ khóa SEO</span></label>
-                            @Html.EditorFor(model => model.metakey, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.metakey, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.metakey, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-secondary ">Mô ta SEO</span></label>
-                            @Html.EditorFor(model => model.metadesc, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.metadesc, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.metadesc, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label for="psw"><span class="text-secondary ">Chọn Cấp cha</span></label>
                         <div>
-                            @Html.DropDownListFor(model => model.parentid, listcat, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.parentid, listcat, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.parentid, "", new { @class = "text-danger" })
                         </div>
 
                         <div>
                             <label for="psw"><span class="text-secondary ">Chọn vị trí hiển thị</span></label>
-                            @Html.DropDownListFor(model => model.orders, listorder, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.orders, listorder, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.orders, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-secondary ">Trang Thái</span></label>
-                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
 
                         </div>

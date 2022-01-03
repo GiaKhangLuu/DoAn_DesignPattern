@@ -8,7 +8,7 @@ namespace ShopCayCanh.Models
 {
     public class ShopCayCanhDbContext : DbContext
     {
-        public ShopCayCanhDbContext() : base("Data Source=DESKTOP-EO1O417;Initial Catalog=ShopCayCanh;Integrated Security=True")
+        public ShopCayCanhDbContext() : base("Data Source=MSI\\SQLEXPRESS;Initial Catalog=ShopCayCanh;Integrated Security=True")
         { }
         public virtual DbSet<Mcategory> Categorys { get; set; }
         public virtual DbSet<Mcontact> Contacts { get; set; }

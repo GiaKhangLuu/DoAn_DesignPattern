@@ -75,13 +75,18 @@
                     <div class="col-md-8">
                         <div>
                             <label for="psw"><span class="text-dark col-form-label">Tên Sản Phẩm</span></label>
-                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control",@readonly="true" } })
                             @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Chi tiết sản phẩm</span></label>
-                            @Html.TextAreaFor(model => model.detail, new { @class = "form-control textarea",
-                          @style = "width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" })
+                            <p>
+                                @Model.detail
+                            </p>
+                            @*@Html.TextAreaFor(model => model.detail, new { @class = "form-control textarea",
+                           @style = "width: 100%;font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;",
+                           @readonly = "true"
+                       })*@
                             @Html.ValidationMessageFor(model => model.detail, "", new { @class = "text-danger" })
                         </div>
                        
@@ -89,47 +94,47 @@
                     <div class="col-md-4">
                         <div>
                             <label for="psw"><span class="text-dark ">Từ khóa SEO</span></label>
-                            @Html.EditorFor(model => model.metakey, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.metakey, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.metakey, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Mô ta SEO</span></label>
-                            @Html.EditorFor(model => model.metadesc, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.metadesc, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.metadesc, "", new { @class = "text-danger" })
                         </div>
                         <label for="psw"><span class="text-dark ">Chọn loại sản phẩm</span></label>
                         <div>
-                            @Html.DropDownListFor(model => model.catid, listcat, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.catid, listcat, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.catid, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
                             <label for="psw"><span class="text-dark ">Nhóm sản phẩm</span></label>
-                            @Html.DropDownListFor(model => model.Submenu, new[] { new SelectListItem() { Value = "1", Text = "Nam" }, new SelectListItem() { Value = "2", Text = "Nữ" } }, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Submenu, new[] { new SelectListItem() { Value = "1", Text = "Nam" }, new SelectListItem() { Value = "2", Text = "Nữ" } }, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.Submenu, "", new { @class = "text-danger" })
 
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Giá tiền</span></label>
-                            @Html.EditorFor(model => model.price, new { htmlAttributes = new { min = "1000", step = "1000", Type = "number", @class = "form-control" } })
+                            @Html.EditorFor(model => model.price, new { htmlAttributes = new { min = "1000", step = "1000", Type = "number", @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Phần Trăm Khuyến mãi (mặc định 0%)</span></label>
-                            @Html.EditorFor(model => model.pricesale, new { htmlAttributes = new { min = "0", step = "1",max ="100", Type = "number", @class = "form-control" } })
+                            @Html.EditorFor(model => model.pricesale, new { htmlAttributes = new { min = "0", step = "1",max ="100", Type = "number", @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.pricesale, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Số lượng</span></label>
-                            @Html.EditorFor(model => model.number, new { htmlAttributes = new { min = "1", step = "1", Type = "number", @class = "form-control" } })
+                            @Html.EditorFor(model => model.number, new { htmlAttributes = new { min = "1", step = "1", Type = "number", @class = "form-control", @readonly = "true" } })
                             @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Hình ảnh sản phẩm</span></label>
-                            <input type="file" class="form-control" name="img" />
+                            <input type="file" class="form-control" name="img" readonly />
                         </div>
                         <div>
                             <label for="psw"><span class="text-dark ">Trang Thái </span></label>
-                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.status, status, new { @class = "form-control", @readonly = "true" })
                             @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
 
                         </div>
