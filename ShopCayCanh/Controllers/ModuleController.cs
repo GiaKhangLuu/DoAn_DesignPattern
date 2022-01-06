@@ -45,7 +45,7 @@ namespace ShopCayCanh.Controllers
             var list = Singleton_Category.GetInstance.list_cat;
 
             list = list.Where(m => m.status == 1).
-               Where(m => m.parentid == 0)
+               Where(m => m.parentid == 1)
                .OrderBy(m => m.orders).ToList();
 
             return View("_Listcategory", list);
